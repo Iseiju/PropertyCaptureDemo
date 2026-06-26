@@ -27,6 +27,9 @@ struct HomeView: View {
       .fullScreenCover(isPresented: $viewModel.isImagePickerPresented) {
         ImagePickerView(imageData: $viewModel.capturedImageData)
       }
+      .onChange(of: viewModel.capturedImageData) {
+        router.push(to: .captureForm)
+      }
   }
 }
 
