@@ -9,7 +9,7 @@ import Foundation
 
 protocol GeocodingAPIProtocol {
 
-  func getGeocodingInfo(
-    latitude: Double, longitude: Double
-  ) async throws -> Geocoding
+  func getReverseGeocodeInfo(
+    _ latitude: Double, _ longitude: Double
+  ) async throws -> ReverseGeocodeResponse
 }

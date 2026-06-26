@@ -11,14 +11,33 @@ import Foundation
 @Observable
 final class PropertyFormViewModel {
 
-  var currentLocation: CLLocation?
-
   let imageData: Data
 
-  private let networkService: NetworkServiceProtocol
+  private(set) var reverseGeocodeResponse: ReverseGeocodeResponse?
 
-  init(_ imageData: Data, _ networkService: NetworkServiceProtocol) {
+  private let currentLocation: CLLocation
+  private let geocodingAPI: GeocodingAPIProtocol
+
+  init(
+    _ imageData: Data,
+    _ currentLocation: CLLocation,
+    _ geocodingAPI: GeocodingAPIProtocol
+  ) {
     self.imageData = imageData
-    self.networkService = networkService
+    self.currentLocation = currentLocation
+    self.geocodingAPI = geocodingAPI
+  }
+
+  func getReverseGeocodeInfo() async {
+    do {
+      let latitude = currentLocation.coordinate.latitude
+      let longitude = currentLocation.coordinate.longitude
+      let reverseGeocodeResponse = try await geocodingAPI
+        .getReverseGeocodeInfo(latitude, longitude)
+
+      self.reverseGeocodeResponse = reverseGeocodeResponse
+    } catch {
+      print(error)
+    }
   }
 }

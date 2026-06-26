@@ -8,32 +8,32 @@
 import Foundation
 
 enum GeocodingAPI: NetworkAPIProtocol {
-  case getGeocodingInfo(_ latitude: Double, _ longitude: Double)
+  case getReverseGeocodeInfo(_ latitude: Double, _ longitude: Double)
 
   var method: NetworkMethod {
     switch self {
-    case .getGeocodingInfo:
+    case .getReverseGeocodeInfo:
       return .get
     }
   }
 
   var host: String {
     switch self {
-    case .getGeocodingInfo:
+    case .getReverseGeocodeInfo:
       return "nominatim.openstreetmap.org"
     }
   }
 
   var endpoint: String {
     switch self {
-    case .getGeocodingInfo:
+    case .getReverseGeocodeInfo:
       return "/reverse"
     }
   }
 
   var queryParams: [String : Any]? {
     switch self {
-    case .getGeocodingInfo(let latitude, let longitude):
+    case .getReverseGeocodeInfo(let latitude, let longitude):
       return [
         "lat" : latitude,
         "lon" : longitude,
@@ -47,12 +47,12 @@ enum GeocodingAPI: NetworkAPIProtocol {
 
 extension NetworkService: GeocodingAPIProtocol {
 
-  func getGeocodingInfo(
-    latitude: Double, longitude: Double
-  ) async throws -> Geocoding {
+  func getReverseGeocodeInfo(
+    _ latitude: Double, _ longitude: Double
+  ) async throws -> ReverseGeocodeResponse {
     return try await request(
-      api: GeocodingAPI.getGeocodingInfo(latitude, longitude),
-      type: Geocoding.self
+      api: GeocodingAPI.getReverseGeocodeInfo(latitude, longitude),
+      type: ReverseGeocodeResponse.self
     )
   }
 }

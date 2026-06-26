@@ -9,7 +9,6 @@ import Foundation
 
 struct Address: Decodable {
 
-  var amenity: String
   var road: String
   var quarter: String
   var suburb: String

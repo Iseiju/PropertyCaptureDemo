@@ -11,8 +11,6 @@ struct PropertyFormView: View {
 
   @State private var viewModel: PropertyFormViewModel
 
-  @Environment(LocationService.self) private var locationService
-
   init(_ viewModel: PropertyFormViewModel) {
     _viewModel = State(wrappedValue: viewModel)
   }
@@ -41,10 +39,7 @@ struct PropertyFormView: View {
     }
     .padding(20)
     .navigationTitle("Property Details")
-    .onAppear { locationService.requestPermission() }
-    .onChange(of: locationService.currentLocation) {
-      viewModel.currentLocation = locationService.currentLocation
-    }
+    .task { await viewModel.getReverseGeocodeInfo() }
   }
 }
 
