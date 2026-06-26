@@ -19,7 +19,10 @@ struct LandingView: View {
 
   var body: some View {
     Text("Landing")
-      .task { await pushToHome() }
+//      .task { await pushToHome() }
+      .onAppear {
+        viewModel.locationService.requestPermission()
+      }
   }
 }
 
