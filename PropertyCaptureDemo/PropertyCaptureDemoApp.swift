@@ -21,5 +21,6 @@ struct PropertyCaptureDemoApp: App {
           }
       }
     }
+    .environment(router)
   }
 }
