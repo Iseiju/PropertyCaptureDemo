@@ -8,21 +8,12 @@
 import SwiftUI
 
 struct LandingView: View {
-
-  @State private var viewModel: LandingViewModel
-
+  
   @Environment(Router.self) private var router
-
-  init(_ viewModel: LandingViewModel) {
-    _viewModel = State(wrappedValue: viewModel)
-  }
 
   var body: some View {
     Text("Landing")
-//      .task { await pushToHome() }
-      .onAppear {
-        viewModel.locationService.requestPermission()
-      }
+      .task { await pushToHome() }
   }
 }
 
@@ -38,5 +29,5 @@ extension LandingView {
 }
 
 #Preview {
-  LandingView(LandingViewModel(LocationService.shared))
+  LandingView()
 }

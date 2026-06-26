@@ -12,6 +12,7 @@ struct HomeView: View {
   @State private var viewModel: HomeViewModel
 
   @Environment(Router.self) private var router
+  @Environment(LocationService.self) private var locationService
 
   init(_ viewModel: HomeViewModel) {
     _viewModel = State(wrappedValue: viewModel)
@@ -32,9 +33,16 @@ struct HomeView: View {
         ImagePickerView(imageData: $viewModel.capturedImageData)
       }
       .onChange(of: viewModel.capturedImageData) {
-        guard let imageData = viewModel.capturedImageData else { return }
+        locationService.requestPermission()
+      }
+      .onChange(of: locationService.currentLocation) {
+        guard let imageData = viewModel.capturedImageData,
+              let currentLocation = locationService.currentLocation
+        else { return }
 
-        router.push(to: .captureForm(imageData))
+        locationService.stopUpdatingLocation()
+
+        router.push(to: .propertyForm(imageData, currentLocation))
       }
   }
 }

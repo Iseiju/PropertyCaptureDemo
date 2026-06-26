@@ -13,12 +13,11 @@ struct PropertyCaptureDemoApp: App {
   @State private var router = Router()
 
   @State private var locationService = LocationService()
-  @State private var cameraService = CameraService()
 
   var body: some Scene {
     WindowGroup {
       NavigationStack(path: $router.routes) {
-        LandingFactory.makeLandingView(locationService, cameraService)
+        LandingFactory.makeLandingView()
           .toolbarTitleDisplayMode(.inline)
           .navigationDestination(for: RouteEnum.self) { route in
             route.destination()
@@ -26,5 +25,6 @@ struct PropertyCaptureDemoApp: App {
       }
     }
     .environment(router)
+    .environment(locationService)
   }
 }
