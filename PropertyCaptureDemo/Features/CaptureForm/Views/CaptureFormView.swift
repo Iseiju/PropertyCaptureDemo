@@ -11,6 +11,8 @@ struct CaptureFormView: View {
 
   @State private var viewModel: CaptureFormViewModel
 
+  @Environment(LocationService.self) private var locationService
+
   init(_ viewModel: CaptureFormViewModel) {
     _viewModel = State(wrappedValue: viewModel)
   }
@@ -30,6 +32,10 @@ struct CaptureFormView: View {
     }
     .padding(20)
     .navigationTitle("Capture Form")
+    .onAppear { locationService.requestPermission() }
+    .onChange(of: locationService.currentLocation) {
+      viewModel.currentLocation = locationService.currentLocation
+    }
   }
 }
 

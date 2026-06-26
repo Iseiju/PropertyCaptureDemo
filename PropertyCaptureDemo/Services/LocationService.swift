@@ -12,7 +12,9 @@ import Foundation
 final class LocationService: NSObject {
 
   var currentLocation: CLLocation?
+  var authStatus: CLAuthorizationStatus = .notDetermined
 
+  @ObservationIgnored
   private let locationManager = CLLocationManager()
 
   override init() {
@@ -20,6 +22,8 @@ final class LocationService: NSObject {
 
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+    authStatus = locationManager.authorizationStatus
   }
 
   func requestPermission() {
@@ -48,22 +52,19 @@ extension LocationService: CLLocationManagerDelegate {
   func locationManager(
     _ manager: CLLocationManager, didFailWithError error: any Error
   ) {
-    print("Failed to get live location: \(error.localizedDescription)")
+    print(error.localizedDescription)
   }
 
-//  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//    switch manager.authorizationStatus {
-//      case .authorizedAlways, .authorizedWhenInUse:
-//      requestLocation()
-//
-//    case .denied, .restricted:
-//      print("Location access denied")
-//
-//    case .notDetermined:
-//      break
-//
-//    default:
-//      break
-//    }
-//  }
+  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    authStatus = manager.authorizationStatus
+
+    switch authStatus{
+    case .authorizedAlways, .authorizedWhenInUse:
+      startUpdatingLocation()
+
+    default:
+      // SHOW ALERT AND NAVIGATE USER TO SETTINGS PAGE
+      break
+    }
+  }
 }
