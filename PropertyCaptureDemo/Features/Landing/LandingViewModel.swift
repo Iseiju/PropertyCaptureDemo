@@ -11,8 +11,13 @@ import Foundation
 final class LandingViewModel {
 
   let locationService: LocationServiceProtocol
+  let cameraService: CameraServiceProtocol
 
-  init(_ locationService: LocationServiceProtocol) {
+  init(
+    _ locationService: LocationServiceProtocol,
+    _ cameraService: CameraServiceProtocol
+  ) {
     self.locationService = locationService
+    self.cameraService = cameraService
   }
 }

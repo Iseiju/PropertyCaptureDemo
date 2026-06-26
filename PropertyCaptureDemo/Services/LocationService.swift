@@ -16,9 +16,8 @@ protocol LocationServiceProtocol {
   func stopUpdatingLocation()
 }
 
+@Observable
 final class LocationService: NSObject, LocationServiceProtocol {
-
-  static let shared = LocationService()
 
   var currentLocation: CLLocation?
 

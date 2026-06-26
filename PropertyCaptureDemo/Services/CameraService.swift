@@ -14,6 +14,7 @@ protocol CameraServiceProtocol {
   func requestPermission() async
 }
 
+@Observable
 final class CameraService: CameraServiceProtocol {
 
   var authStatus: AVAuthorizationStatus {
