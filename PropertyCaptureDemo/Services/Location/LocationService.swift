@@ -36,6 +36,7 @@ final class LocationService: NSObject, LocationServiceProtocol {
 
   func requestPermission() {
     locationManager.requestWhenInUseAuthorization()
+    startUpdatingLocation()
   }
 
   func startUpdatingLocation() {
