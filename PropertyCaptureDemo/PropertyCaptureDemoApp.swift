@@ -10,9 +10,16 @@ import SwiftUI
 @main
 struct PropertyCaptureDemoApp: App {
 
+  @State private var router = Router()
+
   var body: some Scene {
     WindowGroup {
-      LandingView()
+      NavigationStack(path: $router.routes) {
+        LandingFactory.makeLandingView()
+          .navigationDestination(for: RouteEnum.self) { route in
+            route.destination()
+          }
+      }
     }
   }
 }
