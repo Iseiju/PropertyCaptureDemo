@@ -12,8 +12,6 @@ struct PropertyCaptureDemoApp: App {
 
   @State private var router = Router()
 
-  @State private var locationService = LocationService()
-
   var body: some Scene {
     WindowGroup {
       NavigationStack(path: $router.routes) {
@@ -25,6 +23,5 @@ struct PropertyCaptureDemoApp: App {
       }
     }
     .environment(router)
-    .environment(locationService)
   }
 }

@@ -6,10 +6,17 @@
 //
 
 import CoreLocation
-import Foundation
 
-@Observable
-final class LocationService: NSObject {
+protocol LocationServiceProtocol {
+
+  var currentLocation: CLLocation? { get }
+
+  func requestPermission()
+  func startUpdatingLocation()
+  func stopUpdatingLocation()
+}
+
+final class LocationService: NSObject, LocationServiceProtocol {
 
   var currentLocation: CLLocation?
 
