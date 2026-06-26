@@ -40,7 +40,7 @@ struct CaptureFormView: View {
       }
     }
     .padding(20)
-    .navigationTitle("Capture Form")
+    .navigationTitle("Property Details")
     .onAppear { locationService.requestPermission() }
     .onChange(of: locationService.currentLocation) {
       viewModel.currentLocation = locationService.currentLocation
