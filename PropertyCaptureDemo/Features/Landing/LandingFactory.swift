@@ -10,6 +10,6 @@ import SwiftUI
 enum LandingFactory {
 
   static func makeLandingView() -> some View {
-    return LandingView()
+    return LandingView(LandingViewModel(LocationService.shared))
   }
 }

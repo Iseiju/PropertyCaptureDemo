@@ -10,7 +10,7 @@ import Foundation
 @Observable
 final class LandingViewModel {
 
-  private let locationService: LocationServiceProtocol
+  let locationService: LocationServiceProtocol
 
   init(_ locationService: LocationServiceProtocol) {
     self.locationService = locationService
