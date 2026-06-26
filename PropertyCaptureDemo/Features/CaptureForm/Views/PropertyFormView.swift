@@ -51,10 +51,10 @@ struct PropertyFormView: View {
       Button(action: {}) {
         Text("Send")
           .font(.system(size: 16, weight: .semibold))
-          .foregroundStyle(.white)
-          .background(.blue)
           .frame(height: 60)
           .frame(maxWidth: .infinity)
+          .foregroundStyle(.white)
+          .background(.blue)
           .clipShape(RoundedRectangle(cornerRadius: 60 / 2))
       }
     }
