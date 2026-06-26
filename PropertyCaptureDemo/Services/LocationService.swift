@@ -18,7 +18,7 @@ protocol LocationServiceProtocol {
 
 final class LocationService: NSObject, LocationServiceProtocol {
 
-  static var shared = LocationService()
+  static let shared = LocationService()
 
   var currentLocation: CLLocation?
 
