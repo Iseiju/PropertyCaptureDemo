@@ -9,9 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
 
-  @State private var capturedImageData: Data? = nil
+  @State private var viewModel = HomeViewModel()
 
-  @State private var isImagePickerPresented: Bool = false
+  @Environment(Router.self) private var router
 
   var body: some View {
     Text("Home")
@@ -20,12 +20,12 @@ struct HomeView: View {
       .toolbar {
         ToolbarItem(placement: .topBarTrailing) {
           Button("", systemImage: "camera") {
-            isImagePickerPresented.toggle()
+            viewModel.isImagePickerPresented.toggle()
           }
         }
       }
-      .fullScreenCover(isPresented: $isImagePickerPresented) {
-        ImagePickerView(imageData: $capturedImageData)
+      .fullScreenCover(isPresented: $viewModel.isImagePickerPresented) {
+        ImagePickerView(imageData: $viewModel.capturedImageData)
       }
   }
 }
