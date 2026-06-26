@@ -16,7 +16,20 @@ struct CaptureFormView: View {
   }
 
   var body: some View {
-    Text("Capture Form")
+    VStack(spacing: 8) {
+      if let image = UIImage(data: viewModel.imageData) {
+        Image(uiImage: image)
+          .resizable()
+          .scaledToFill()
+          .frame(height: 400)
+          .clipped()
+          .clipShape(.rect(cornerRadius: 8))
+      }
+
+      Spacer()
+    }
+    .padding(20)
+    .navigationTitle("Capture Form")
   }
 }
 
