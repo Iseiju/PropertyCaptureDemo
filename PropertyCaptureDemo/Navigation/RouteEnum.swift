@@ -9,7 +9,7 @@ import SwiftUI
 
 enum RouteEnum: Hashable {
   case home
-  case captureForm(_ imageData: Data)
+  case propertyForm(_ imageData: Data)
 }
 
 extension RouteEnum {
@@ -20,7 +20,7 @@ extension RouteEnum {
     case .home:
       HomeFactory.makeHomeView()
 
-    case .captureForm(let imageData):
+    case .propertyForm(let imageData):
       PropertyFormFactory.makePropertyFormView(imageData)
     }
   }

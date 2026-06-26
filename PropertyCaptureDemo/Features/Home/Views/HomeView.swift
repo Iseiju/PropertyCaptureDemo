@@ -34,7 +34,7 @@ struct HomeView: View {
       .onChange(of: viewModel.capturedImageData) {
         guard let imageData = viewModel.capturedImageData else { return }
 
-        router.push(to: .captureForm(imageData))
+        router.push(to: .propertyForm(imageData))
       }
   }
 }
