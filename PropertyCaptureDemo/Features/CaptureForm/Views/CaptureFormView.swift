@@ -9,11 +9,17 @@ import SwiftUI
 
 struct CaptureFormView: View {
 
+  @State private var viewModel: CaptureFormViewModel
+
+  init(_ viewModel: CaptureFormViewModel) {
+    _viewModel = State(wrappedValue: viewModel)
+  }
+
   var body: some View {
     Text("Capture Form")
   }
 }
 
 #Preview {
-  CaptureFormView()
+  CaptureFormView(.init(Data()))
 }

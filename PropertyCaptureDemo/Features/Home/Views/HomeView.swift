@@ -28,7 +28,9 @@ struct HomeView: View {
         ImagePickerView(imageData: $viewModel.capturedImageData)
       }
       .onChange(of: viewModel.capturedImageData) {
-        router.push(to: .captureForm)
+        guard let imageData = viewModel.capturedImageData else { return }
+
+        router.push(to: .captureForm(imageData))
       }
   }
 }
