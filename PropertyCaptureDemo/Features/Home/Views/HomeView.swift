@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
 
-  @State private var viewModel = HomeViewModel()
+  @State private var viewModel: HomeViewModel
 
   @Environment(Router.self) private var router
 
