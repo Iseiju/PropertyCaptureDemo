@@ -13,7 +13,15 @@ final class PropertyFormViewModel {
 
   let imageData: Data
 
-  private(set) var reverseGeocodeResponse: ReverseGeocodeResponse?
+  var propertyName: String {
+    return reverseGeocodeResponse?.name.capitalized ?? ""
+  }
+
+  var propertyType: String {
+    return reverseGeocodeResponse?.type.capitalized ?? ""
+  }
+
+  private var reverseGeocodeResponse: ReverseGeocodeResponse?
 
   private let currentLocation: CLLocation
   private let geocodingAPI: GeocodingAPIProtocol
