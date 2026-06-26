@@ -21,7 +21,7 @@ extension RouteEnum {
       HomeFactory.makeHomeView()
 
     case .captureForm(let imageData):
-      CaptureFormFactory.makeCaptureFormView(imageData)
+      PropertyFormFactory.makePropertyFormView(imageData)
     }
   }
 }

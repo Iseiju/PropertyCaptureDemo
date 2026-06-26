@@ -1,5 +1,5 @@
 //
-//  CaptureFormViewModel.swift
+//  PropertyFormViewModel.swift
 //  PropertyCaptureDemo
 //
 //  Created by Kenneth James Uy on 6/26/26.
@@ -9,7 +9,7 @@ import CoreLocation
 import Foundation
 
 @Observable
-final class CaptureFormViewModel {
+final class PropertyFormViewModel {
 
   var currentLocation: CLLocation?
 

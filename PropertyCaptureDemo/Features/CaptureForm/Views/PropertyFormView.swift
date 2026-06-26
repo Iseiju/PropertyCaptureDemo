@@ -1,5 +1,5 @@
 //
-//  CaptureFormView.swift
+//  PropertyFormView.swift
 //  PropertyCaptureDemo
 //
 //  Created by Kenneth James Uy on 6/26/26.
@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct CaptureFormView: View {
+struct PropertyFormView: View {
 
-  @State private var viewModel: CaptureFormViewModel
+  @State private var viewModel: PropertyFormViewModel
 
   @Environment(LocationService.self) private var locationService
 
-  init(_ viewModel: CaptureFormViewModel) {
+  init(_ viewModel: PropertyFormViewModel) {
     _viewModel = State(wrappedValue: viewModel)
   }
 
@@ -48,6 +48,6 @@ struct CaptureFormView: View {
   }
 }
 
-#Preview {
-  CaptureFormView(.init(Data()))
-}
+//#Preview {
+//  PropertyFormView(.init(Data()))
+//}
