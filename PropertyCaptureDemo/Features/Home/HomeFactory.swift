@@ -10,6 +10,6 @@ import SwiftUI
 enum HomeFactory {
 
   static func makeHomeView() -> some View {
-    return HomeView()
+    return HomeView(HomeViewModel())
   }
 }

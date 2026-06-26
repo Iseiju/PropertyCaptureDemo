@@ -13,6 +13,10 @@ struct HomeView: View {
 
   @Environment(Router.self) private var router
 
+  init(_ viewModel: HomeViewModel) {
+    _viewModel = State(wrappedValue: viewModel)
+  }
+
   var body: some View {
     Text("Home")
       .navigationTitle("Home")
@@ -36,5 +40,5 @@ struct HomeView: View {
 }
 
 #Preview {
-  HomeView()
+  HomeView(.init())
 }
