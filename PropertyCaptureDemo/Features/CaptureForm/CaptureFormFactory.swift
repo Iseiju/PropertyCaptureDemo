@@ -1,0 +1,15 @@
+//
+//  CaptureFormFactory.swift
+//  PropertyCaptureDemo
+//
+//  Created by Kenneth James Uy on 6/26/26.
+//
+
+import SwiftUI
+
+enum CaptureFormFactory {
+
+  static func makeCaptureFormView() -> some View {
+    return CaptureFormView()
+  }
+}
