@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
 
-  @State private var capturedImage: UIImage? = nil
+  @State private var capturedImageData: Data? = nil
 
   @State private var isImagePickerPresented: Bool = false
 
@@ -25,7 +25,7 @@ struct HomeView: View {
         }
       }
       .fullScreenCover(isPresented: $isImagePickerPresented) {
-        ImagePickerView(image: $capturedImage)
+        ImagePickerView(imageData: $capturedImageData)
       }
   }
 }

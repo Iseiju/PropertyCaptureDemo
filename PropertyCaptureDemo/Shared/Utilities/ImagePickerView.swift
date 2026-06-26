@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ImagePickerView: UIViewControllerRepresentable {
 
-  @Binding var image: UIImage?
+  @Binding var imageData: Data?
 
   @Environment(\.dismiss) private var dismiss
 
@@ -41,9 +41,11 @@ struct ImagePickerView: UIViewControllerRepresentable {
       _ picker: UIImagePickerController,
       didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]
     ) {
-      guard let image = info[.originalImage] as? UIImage else { return }
+      guard let image = info[.originalImage] as? UIImage,
+            let imageData = image.jpegData(compressionQuality: 0.8)
+      else { return }
 
-      parent.image = image
+      parent.imageData = imageData
       parent.dismiss()
     }
 
