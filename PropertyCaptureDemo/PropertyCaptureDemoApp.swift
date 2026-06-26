@@ -12,7 +12,7 @@ struct PropertyCaptureDemoApp: App {
 
   var body: some Scene {
     WindowGroup {
-      EmptyView()
+      LandingView()
     }
   }
 }
