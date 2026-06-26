@@ -8,6 +8,6 @@
 import Foundation
 
 enum RouteEnum: Hashable {
-  case list
+  case home
   case form
 }
