@@ -15,7 +15,10 @@ final class CaptureFormViewModel {
 
   let imageData: Data
 
-  init(_ imageData: Data) {
+  private let networkService: NetworkServiceProtocol
+
+  init(_ imageData: Data, _ networkService: NetworkServiceProtocol) {
     self.imageData = imageData
+    self.networkService = networkService
   }
 }

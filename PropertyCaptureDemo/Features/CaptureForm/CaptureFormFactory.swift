@@ -10,6 +10,8 @@ import SwiftUI
 enum CaptureFormFactory {
 
   static func makeCaptureFormView(_ imageData: Data) -> some View {
-    return CaptureFormView(CaptureFormViewModel(imageData))
+    return CaptureFormView(
+      CaptureFormViewModel(imageData, NetworkService.shared)
+    )
   }
 }
