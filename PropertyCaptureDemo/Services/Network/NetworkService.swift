@@ -11,7 +11,7 @@ class NetworkService: NetworkServiceProtocol {
 
   static let shared = NetworkService()
 
-  func request<T: Codable>(
+  func request<T: Decodable>(
     api: NetworkAPIProtocol, type: T.Type, timeoutInterval: TimeInterval = 4.0
   ) async throws -> T {
     do {
