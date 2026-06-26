@@ -18,7 +18,7 @@ struct CaptureFormView: View {
   }
 
   var body: some View {
-    VStack(spacing: 8) {
+    VStack(spacing: 12) {
       if let image = UIImage(data: viewModel.imageData) {
         Image(uiImage: image)
           .resizable()
@@ -29,6 +29,15 @@ struct CaptureFormView: View {
       }
 
       Spacer()
+
+      Button(action: {}) {
+        Text("Send")
+          .frame(height: 60)
+          .frame(maxWidth: .infinity)
+          .foregroundStyle(.white)
+          .background(.blue)
+          .clipShape(RoundedRectangle(cornerRadius: 60 / 2))
+      }
     }
     .padding(20)
     .navigationTitle("Capture Form")
