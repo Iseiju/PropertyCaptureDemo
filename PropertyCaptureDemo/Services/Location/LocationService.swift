@@ -30,13 +30,10 @@ final class LocationService: NSObject, LocationServiceProtocol {
 
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
-
-    authStatus = locationManager.authorizationStatus
   }
 
   func requestPermission() {
     locationManager.requestWhenInUseAuthorization()
-    startUpdatingLocation()
   }
 
   func startUpdatingLocation() {
@@ -67,7 +64,7 @@ extension LocationService: CLLocationManagerDelegate {
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     authStatus = manager.authorizationStatus
 
-    switch authStatus{
+    switch authStatus {
     case .authorizedAlways, .authorizedWhenInUse:
       startUpdatingLocation()
 
