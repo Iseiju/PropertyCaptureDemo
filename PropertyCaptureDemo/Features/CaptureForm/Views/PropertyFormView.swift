@@ -79,7 +79,7 @@ struct PropertyFormView: View {
     .sheet(isPresented: $viewModel.isActivityViewPresented) {
       ActivityView(items: viewModel.activityItems)
     }
-    .task { await viewModel.getReverseGeocodeInfo() }
+    .task { try? await viewModel.getReverseGeocodeInfo() }
   }
 }
 

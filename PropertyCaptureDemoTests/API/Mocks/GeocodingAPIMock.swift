@@ -14,7 +14,7 @@ final class GeocodingAPIMock: GeocodingAPIProtocol {
 
   func getReverseGeocodeInfo(
     _ latitude: Double, _ longitude: Double
-  ) async throws -> ReverseGeocodeResponse {
+  ) async throws(AppError) -> ReverseGeocodeResponse {
     switch getReverseGeocodeInfoResult {
     case .success(let data):
       return data

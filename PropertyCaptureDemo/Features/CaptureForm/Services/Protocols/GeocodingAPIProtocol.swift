@@ -11,5 +11,5 @@ protocol GeocodingAPIProtocol {
 
   func getReverseGeocodeInfo(
     _ latitude: Double, _ longitude: Double
-  ) async throws -> ReverseGeocodeResponse
+  ) async throws(AppError) -> ReverseGeocodeResponse
 }

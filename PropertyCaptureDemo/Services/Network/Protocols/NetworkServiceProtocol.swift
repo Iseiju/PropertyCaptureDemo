@@ -11,5 +11,5 @@ protocol NetworkServiceProtocol {
 
   func request<T: Codable>(
     api: NetworkAPIProtocol, type: T.Type, timeoutInterval: TimeInterval
-  ) async throws -> T
+  ) async throws(AppError) -> T
 }

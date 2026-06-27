@@ -18,7 +18,7 @@ final class GeocodingAPISpy: GeocodingAPIProtocol {
 
   func getReverseGeocodeInfo(
     _ latitude: Double, _ longitude: Double
-  ) async throws -> PropertyCaptureDemo.ReverseGeocodeResponse {
+  ) async throws(AppError) -> PropertyCaptureDemo.ReverseGeocodeResponse {
     called.append(.getReverseGeocodeInfo(latitude, longitude))
 
     return ReverseGeocodeResponse.dummyData()

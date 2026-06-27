@@ -49,7 +49,7 @@ extension NetworkService: GeocodingAPIProtocol {
 
   func getReverseGeocodeInfo(
     _ latitude: Double, _ longitude: Double
-  ) async throws -> ReverseGeocodeResponse {
+  ) async throws(AppError)  -> ReverseGeocodeResponse {
     return try await request(
       api: GeocodingAPI.getReverseGeocodeInfo(latitude, longitude),
       type: ReverseGeocodeResponse.self

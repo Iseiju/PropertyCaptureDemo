@@ -26,7 +26,7 @@ final class PropertyFormViewModel {
   var isActivityViewPresented: Bool = false
 
   private(set) var activityItems: [Any] = []
-  private var reverseGeocodeResponse: ReverseGeocodeResponse?
+  private(set) var reverseGeocodeResponse: ReverseGeocodeResponse?
 
   private let currentLocation: CLLocation
   private let geocodingAPI: GeocodingAPIProtocol
@@ -41,7 +41,7 @@ final class PropertyFormViewModel {
     self.geocodingAPI = geocodingAPI
   }
 
-  func getReverseGeocodeInfo() async {
+  func getReverseGeocodeInfo() async throws(AppError) {
     do {
       let latitude = currentLocation.coordinate.latitude
       let longitude = currentLocation.coordinate.longitude
@@ -50,7 +50,7 @@ final class PropertyFormViewModel {
 
       self.reverseGeocodeResponse = reverseGeocodeResponse
     } catch {
-      print(error)
+      throw error
     }
   }
 
