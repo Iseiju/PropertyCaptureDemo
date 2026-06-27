@@ -16,4 +16,16 @@ struct Address: Decodable {
   var region: String
   var postcode: String
   var country: String
+
+  static func dummyData() -> Self {
+    return Self(
+      road: "Test Road",
+      quarter: "Test Quarter",
+      suburb: "Test Suburb",
+      city: "Test City",
+      region: "Test Region",
+      postcode: "Test Postcode",
+      country: "Test Country"
+    )
+  }
 }

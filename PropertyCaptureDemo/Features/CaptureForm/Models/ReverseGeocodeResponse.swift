@@ -20,4 +20,13 @@ struct ReverseGeocodeResponse: Decodable {
     case type
     case address
   }
+
+  static func dummyData() -> Self {
+    return Self(
+      placeId: 1,
+      name: "Test Name",
+      type: "Test Type",
+      address: .dummyData()
+    )
+  }
 }
