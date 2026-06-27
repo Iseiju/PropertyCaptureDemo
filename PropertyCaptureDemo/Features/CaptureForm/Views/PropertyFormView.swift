@@ -16,52 +16,65 @@ struct PropertyFormView: View {
   }
 
   var body: some View {
-    VStack( spacing: 12) {
-      if let image = UIImage(data: viewModel.imageData) {
-        Image(uiImage: image)
-          .resizable()
-          .scaledToFill()
-          .frame(height: 400)
-          .clipped()
-          .clipShape(.rect(cornerRadius: 8))
+    ScrollView(.vertical) {
+      VStack(spacing: 12) {
+        if let image = UIImage(data: viewModel.imageData) {
+          Image(uiImage: image)
+            .resizable()
+            .scaledToFill()
+            .frame(height: 400)
+            .clipped()
+            .clipShape(.rect(cornerRadius: 8))
+        }
+
+        VStack(alignment: .leading, spacing: 8) {
+          Text("Property Name")
+            .font(.system(size: 16, weight: .semibold))
+
+          Text(viewModel.propertyName)
+            .font(.system(size: 14, weight: .regular))
+            .padding(.leading, 8)
+
+          divider()
+
+          Text("Property Type")
+            .font(.system(size: 16, weight: .semibold))
+
+          Text(viewModel.propertyType)
+            .font(.system(size: 14, weight: .regular))
+            .padding(.leading, 8)
+
+          divider()
+
+          Text("Notes")
+            .font(.system(size: 16, weight: .semibold))
+
+          TextField("", text: $viewModel.notes)
+            .font(.system(size: 14, weight: .regular))
+            .padding(.leading, 8)
+
+          divider()
+        }
+
+        Spacer()
+
+        Button {
+          UIApplication.shared.endEditing()
+
+          viewModel.createActivityItems()
+          viewModel.isActivityViewPresented.toggle()
+        } label: {
+          Text("Send")
+            .font(.system(size: 16, weight: .semibold))
+            .frame(height: 60)
+            .frame(maxWidth: .infinity)
+            .foregroundStyle(.white)
+            .background(.blue)
+            .clipShape(RoundedRectangle(cornerRadius: 60 / 2))
+        }
       }
-
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Property Name")
-          .font(.system(size: 16, weight: .semibold))
-
-        Text(viewModel.propertyName)
-          .font(.system(size: 14, weight: .regular))
-          .padding(.leading, 8)
-
-        divider()
-
-        Text("Property Type")
-          .font(.system(size: 16, weight: .semibold))
-
-        Text(viewModel.propertyType)
-          .font(.system(size: 14, weight: .regular))
-          .padding(.leading, 8)
-
-        divider()
-      }
-
-      Spacer()
-
-      Button {
-        viewModel.createActivityItems()
-        viewModel.isActivityViewPresented.toggle()
-      } label: {
-        Text("Send")
-          .font(.system(size: 16, weight: .semibold))
-          .frame(height: 60)
-          .frame(maxWidth: .infinity)
-          .foregroundStyle(.white)
-          .background(.blue)
-          .clipShape(RoundedRectangle(cornerRadius: 60 / 2))
-      }
+      .padding(20)
     }
-    .padding(20)
     .navigationTitle("Property Details")
     .sheet(isPresented: $viewModel.isActivityViewPresented) {
       ActivityView(items: viewModel.activityItems)
