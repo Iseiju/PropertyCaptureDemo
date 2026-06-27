@@ -59,9 +59,10 @@ struct PropertyFormView: View {
             .frame(height: 60)
             .frame(maxWidth: .infinity)
             .foregroundStyle(.white)
-            .background(.blue)
+            .background(viewModel.isSendButtonEnabled ? .blue : .gray)
             .clipShape(RoundedRectangle(cornerRadius: 60 / 2))
         }
+        .disabled(!viewModel.isSendButtonEnabled)
       }
       .padding(20)
     }

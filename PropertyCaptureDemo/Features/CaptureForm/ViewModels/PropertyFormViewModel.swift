@@ -13,6 +13,9 @@ final class PropertyFormViewModel {
 
   let imageData: Data
 
+  var notes: String = ""
+  var isActivityViewPresented: Bool = false
+
   var propertyName: String {
     return reverseGeocodeResponse?.name.capitalized ?? ""
   }
@@ -45,9 +48,9 @@ final class PropertyFormViewModel {
     return fullAddress.joined(separator: ", ")
   }
 
-  var notes: String = ""
-
-  var isActivityViewPresented: Bool = false
+  var isSendButtonEnabled: Bool {
+    return reverseGeocodeResponse != nil && !notes.isBlank
+  }
 
   private(set) var activityItems: [Any] = []
   private(set) var reverseGeocodeResponse: ReverseGeocodeResponse?
