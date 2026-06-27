@@ -37,9 +37,7 @@ final class PropertyFormViewModel {
     var fullAddress: [String] = []
 
     for component in components {
-      guard !component
-        .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-      else { continue }
+      guard !component.isBlank else { continue }
 
       fullAddress.append(component)
     }

@@ -20,9 +20,7 @@ enum AppError: Error {
       return "Bad URL"
 
     case .badServerResponse(let message):
-      guard let message,
-            !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-      else { return "Bad Server Response" }
+      guard let message, !message.isBlank else { return "Bad Server Response" }
 
       return message
 
