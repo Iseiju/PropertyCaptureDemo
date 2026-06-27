@@ -48,7 +48,10 @@ struct PropertyFormView: View {
 
       Spacer()
 
-      Button { viewModel.isActivityViewPresented.toggle() } label: {
+      Button {
+        viewModel.createActivityItems()
+        viewModel.isActivityViewPresented.toggle()
+      } label: {
         Text("Send")
           .font(.system(size: 16, weight: .semibold))
           .frame(height: 60)
@@ -61,7 +64,7 @@ struct PropertyFormView: View {
     .padding(20)
     .navigationTitle("Property Details")
     .sheet(isPresented: $viewModel.isActivityViewPresented) {
-      ActivityView(items: [])
+      ActivityView(items: viewModel.activityItems)
     }
     .task { await viewModel.getReverseGeocodeInfo() }
   }
