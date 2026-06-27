@@ -19,7 +19,7 @@ struct PropertyCaptureDemoApp: App {
       NavigationStack(path: $router.routes) {
         LandingFactory.makeLandingView()
           .toolbarTitleDisplayMode(.inline)
-          .navigationDestination(for: RouteEnum.self) { route in
+          .navigationDestination(for: Route.self) { route in
             route.destination()
           }
       }

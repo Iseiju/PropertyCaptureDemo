@@ -1,5 +1,5 @@
 //
-//  RouteEnum.swift
+//  Route.swift
 //  PropertyCaptureDemo
 //
 //  Created by Kenneth James Uy on 6/26/26.
@@ -8,12 +8,12 @@
 import CoreLocation
 import SwiftUI
 
-enum RouteEnum: Hashable {
+enum Route: Hashable {
   case home
   case propertyForm(_ imageData: Data, _ currentLocation: CLLocation)
 }
 
-extension RouteEnum {
+extension Route {
 
   @ViewBuilder
   func destination() -> some View {

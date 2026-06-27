@@ -10,9 +10,9 @@ import Foundation
 @Observable
 final class Router {
 
-  var routes: [RouteEnum] = []
+  var routes: [Route] = []
 
-  func push(to route: RouteEnum) {
+  func push(to route: Route) {
     routes.append(route)
   }
 
