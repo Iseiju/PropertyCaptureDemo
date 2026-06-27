@@ -30,6 +30,7 @@ struct PropertyFormView: View {
         VStack(alignment: .leading, spacing: 8) {
           LabeledText(title: "Name", text: viewModel.propertyName)
           LabeledText(title: "Type", text: viewModel.propertyType)
+          LabeledText(title: "Address", text: viewModel.propertyAddress)
 
           Text("Notes")
             .font(.system(size: 16, weight: .semibold))

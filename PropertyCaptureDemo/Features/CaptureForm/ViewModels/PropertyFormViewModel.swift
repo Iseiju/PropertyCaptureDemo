@@ -21,6 +21,32 @@ final class PropertyFormViewModel {
     return reverseGeocodeResponse?.type.capitalized ?? ""
   }
 
+  var propertyAddress: String {
+    guard let address = reverseGeocodeResponse?.address else { return "" }
+
+    let components: [String] = [
+      address.road ?? "",
+      address.quarter ?? "",
+      address.suburb ?? "",
+      address.city ?? "",
+      address.region ?? "",
+      address.postcode ?? "",
+      address.country
+    ]
+
+    var fullAddress: [String] = []
+
+    for component in components {
+      guard !component
+        .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+      else { continue }
+
+      fullAddress.append(component)
+    }
+
+    return fullAddress.joined(separator: ", ")
+  }
+
   var notes: String = ""
 
   var isActivityViewPresented: Bool = false
@@ -64,8 +90,9 @@ final class PropertyFormViewModel {
     )
 
     let details = [
-      "Property Name: \(propertyName)",
-      "Property Type: \(propertyType)",
+      "Name: \(propertyName)",
+      "Type: \(propertyType)",
+      "Address: \(propertyAddress)",
       "Notes: \(notes)"
     ]
       .joined(separator: "\n")

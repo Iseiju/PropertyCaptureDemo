@@ -18,6 +18,8 @@ struct LabeledText: View {
         .font(.system(size: 16, weight: .semibold))
 
       Text(text)
+        .multilineTextAlignment(.leading)
+        .lineLimit(2)
         .font(.system(size: 14, weight: .regular))
         .padding(.leading, 8)
 
