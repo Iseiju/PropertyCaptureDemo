@@ -21,6 +21,8 @@ final class PropertyFormViewModel {
     return reverseGeocodeResponse?.type.capitalized ?? ""
   }
 
+  var notes: String = ""
+
   var isActivityViewPresented: Bool = false
 
   private(set) var activityItems: [Any] = []
@@ -53,13 +55,22 @@ final class PropertyFormViewModel {
   }
 
   func createActivityItems() {
+    activityItems.removeAll()
+
     let imagePreviewItem = ActivityItem(
       imageData: imageData,
       title: propertyName,
       subtitle: "📍 \(propertyType)"
     )
 
+    let details = [
+      "Property Name: \(propertyName)",
+      "Property Type: \(propertyType)",
+      "Notes: \(notes)"
+    ]
+      .joined(separator: "\n")
+
     activityItems.append(imagePreviewItem)
-    activityItems.append("Property Name: \(propertyName)\nProperty Type: \(propertyType)")
+    activityItems.append(details)
   }
 }
