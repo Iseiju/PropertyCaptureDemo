@@ -66,6 +66,39 @@ final class PropertyFormViewModelTest: XCTestCase {
       XCTAssertEqual(error.localizedDescription, "Unknown Error")
     }
   }
+
+  @MainActor
+  func testCreateActivityItemsSuccess() async {
+    let (sut, mock) = makeMockPropertyFormVM()
+    let stubAddress = Address(
+      road: "Circumferential Road",
+      quarter: nil,
+      suburb: "Limao",
+      city: "Samal",
+      region: "Davao Region",
+      postcode: "8119",
+      country: "Philippines"
+    )
+    let stubReverseGeocode = ReverseGeocodeResponse(
+      placeId: 261460442,
+      name: "Crusoe Cabins at Costa Azalea",
+      type: "beach_resort",
+      address: stubAddress
+    )
+
+    mock.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
+    try? await sut.getReverseGeocodeInfo()
+
+    sut.notes = "Sample Notes"
+    sut.createActivityItems()
+
+    XCTAssertFalse(sut.imageData.isEmpty)
+    XCTAssertFalse(sut.propertyName.isEmpty)
+    XCTAssertFalse(sut.propertyType.isEmpty)
+    XCTAssertFalse(sut.propertyAddress.isEmpty)
+    XCTAssertFalse(sut.notes.isEmpty)
+    XCTAssertFalse(sut.activityItems.isEmpty)
+  }
 }
 
 // MARK: Make SUT
@@ -75,8 +108,9 @@ extension PropertyFormViewModelTest {
   @MainActor
   private func makeSpyPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPISpy) {
     let geocodingAPISpy = GeocodingAPISpy()
+    let imageData = Data(repeating: 0xFF, count: 1024)
     let location = CLLocation(latitude: 7.087357181983118, longitude: 125.66729262828807)
-    let sut = PropertyFormViewModel(Data(), location, geocodingAPISpy)
+    let sut = PropertyFormViewModel(imageData, location, geocodingAPISpy)
 
     return (sut, geocodingAPISpy)
   }
@@ -84,8 +118,9 @@ extension PropertyFormViewModelTest {
   @MainActor
   private func makeMockPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPIMock) {
     let geocodingAPIMock = GeocodingAPIMock()
+    let imageData = Data(repeating: 0xFF, count: 1024)
     let location = CLLocation(latitude: 7.087357181983118, longitude: 125.66729262828807)
-    let sut = PropertyFormViewModel(Data(), location, geocodingAPIMock)
+    let sut = PropertyFormViewModel(imageData, location, geocodingAPIMock)
 
     return (sut, geocodingAPIMock)
   }
