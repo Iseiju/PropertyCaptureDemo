@@ -15,7 +15,7 @@ class NetworkService: NetworkServiceProtocol {
     api: NetworkAPIProtocol, type: T.Type, timeoutInterval: TimeInterval = 4.0
   ) async throws -> T {
     do {
-      guard let url = api.createURL() else { throw URLError(.badURL) }
+      guard let url = api.createURL() else { throw AppError.invalidURL }
 
       var request = URLRequest(url: url)
       request.httpMethod = api.method.rawValue.uppercased()
@@ -25,7 +25,10 @@ class NetworkService: NetworkServiceProtocol {
 
       guard let httpResponse = response as? HTTPURLResponse,
             (200...299).contains(httpResponse.statusCode)
-      else { throw URLError(.badServerResponse) }
+      else {
+        throw AppError
+          .badServerResponse(message: String(data: data, encoding: .utf8))
+      }
 
       return try JSONDecoder().decode(type, from: data)
     } catch {

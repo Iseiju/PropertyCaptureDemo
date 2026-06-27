@@ -10,7 +10,7 @@ import Foundation
 
 final class GeocodingAPIMock: GeocodingAPIProtocol {
 
-  var getReverseGeocodeInfoResult: Result<ReverseGeocodeResponse, Error>?
+  var getReverseGeocodeInfoResult: Result<ReverseGeocodeResponse, AppError>?
 
   func getReverseGeocodeInfo(
     _ latitude: Double, _ longitude: Double
@@ -23,8 +23,7 @@ final class GeocodingAPIMock: GeocodingAPIProtocol {
       throw error
 
     case .none:
-//      throw DecodingError.dataCorrupted
-//      throw custom error
+      throw AppError.badServerResponse(message: "Unknown error")
     }
   }
 }
