@@ -9,9 +9,9 @@ import XCTest
 import CoreLocation
 @testable import PropertyCaptureDemo
 
+@MainActor
 final class PropertyFormViewModelTest: XCTestCase {
 
-  @MainActor
   func testGetReverseGeocodeInfoCalled() async {
     let (sut, spy) = makeSpyPropertyFormVM()
 
@@ -20,7 +20,6 @@ final class PropertyFormViewModelTest: XCTestCase {
     XCTAssertEqual(spy.called, [.getReverseGeocodeInfo(7.087357181983118, 125.66729262828807)])
   }
 
-  @MainActor
   func testGetReverseGeocodeInfoSuccess() async {
     let (sut, mock) = makeMockPropertyFormVM()
     let stubAddress = Address(
@@ -52,7 +51,6 @@ final class PropertyFormViewModelTest: XCTestCase {
     }
   }
 
-  @MainActor
   func testGetReverseGeocodeInfoFailed() async {
     let (sut, mock) = makeMockPropertyFormVM()
     mock.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: "Unknown Error"))
@@ -67,8 +65,7 @@ final class PropertyFormViewModelTest: XCTestCase {
     }
   }
 
-  @MainActor
-  func testCreateActivityItemsSuccess() async {
+  func testCreateActivityItemsHasGeocodeInfo() async {
     let (sut, mock) = makeMockPropertyFormVM()
     let stubAddress = Address(
       road: "Circumferential Road",
@@ -99,13 +96,27 @@ final class PropertyFormViewModelTest: XCTestCase {
     XCTAssertFalse(sut.notes.isEmpty)
     XCTAssertFalse(sut.activityItems.isEmpty)
   }
+  
+  func testCreateActivityItemsNoGeocodeInfo() async {
+    let (sut, mock) = makeMockPropertyFormVM()
+    mock.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: nil))
+    try? await sut.getReverseGeocodeInfo()
+
+    sut.createActivityItems()
+
+    XCTAssertFalse(sut.imageData.isEmpty)
+    XCTAssertTrue(sut.propertyName.isEmpty)
+    XCTAssertTrue(sut.propertyType.isEmpty)
+    XCTAssertTrue(sut.propertyAddress.isEmpty)
+    XCTAssertTrue(sut.notes.isEmpty)
+    XCTAssertTrue(sut.activityItems.isEmpty)
+  }
 }
 
 // MARK: Make SUT
 
 extension PropertyFormViewModelTest {
 
-  @MainActor
   private func makeSpyPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPISpy) {
     let geocodingAPISpy = GeocodingAPISpy()
     let imageData = Data(repeating: 0xFF, count: 1024)
@@ -115,7 +126,6 @@ extension PropertyFormViewModelTest {
     return (sut, geocodingAPISpy)
   }
 
-  @MainActor
   private func makeMockPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPIMock) {
     let geocodingAPIMock = GeocodingAPIMock()
     let imageData = Data(repeating: 0xFF, count: 1024)

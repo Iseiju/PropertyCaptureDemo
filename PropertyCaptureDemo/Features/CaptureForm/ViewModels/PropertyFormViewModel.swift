@@ -82,6 +82,8 @@ final class PropertyFormViewModel {
   }
 
   func createActivityItems() {
+    guard reverseGeocodeResponse != nil else { return }
+
     activityItems.removeAll()
 
     let imagePreviewItem = ActivityItem(
