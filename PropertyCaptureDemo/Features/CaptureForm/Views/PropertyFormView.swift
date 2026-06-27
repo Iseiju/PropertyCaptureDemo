@@ -48,12 +48,16 @@ struct PropertyFormView: View {
 
           Text("Notes")
             .font(.system(size: 16, weight: .semibold))
+            .padding(.top, 12)
 
-          TextField("", text: $viewModel.notes)
+          TextEditor(text: $viewModel.notes)
             .font(.system(size: 14, weight: .regular))
-            .padding(.leading, 8)
-
-          divider()
+            .frame(height: 60)
+            .padding(12)
+            .overlay {
+              RoundedRectangle(cornerRadius: 8)
+                .stroke(.gray, lineWidth: 1.0)
+            }
         }
 
         Spacer()
