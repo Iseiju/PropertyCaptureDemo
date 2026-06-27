@@ -5,6 +5,7 @@
 //  Created by Kenneth James Uy on 6/26/26.
 //
 
+import CoreLocation
 import SwiftUI
 
 struct PropertyFormView: View {
@@ -76,6 +77,14 @@ struct PropertyFormView: View {
   }
 }
 
-//#Preview {
-//  PropertyFormView(.init(Data()))
-//}
+#Preview {
+  let container = AppContainer()
+  let vm = PropertyFormViewModel(
+    Data(),
+    CLLocation(),
+    container.geocodingAPI,
+    container.propertyRepository
+  )
+
+  PropertyFormView(vm)
+}

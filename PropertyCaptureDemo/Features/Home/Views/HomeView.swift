@@ -50,6 +50,8 @@ struct HomeView: View {
   }
 }
 
-//#Preview {
-//  HomeView(.init())
-//}
+#Preview {
+  let container = AppContainer()
+
+  HomeView(HomeViewModel(container.propertyRepository))
+}
