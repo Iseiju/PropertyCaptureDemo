@@ -21,7 +21,7 @@ final class PropertyRepository: PropertyRepositoryProtocol {
 
 extension PropertyRepository {
 
-  func getProperties() async throws -> [Property] {
+  func getProperties() throws -> [Property] {
     let descriptor = FetchDescriptor<Property>()
 
     return try modelContext.fetch(descriptor)
