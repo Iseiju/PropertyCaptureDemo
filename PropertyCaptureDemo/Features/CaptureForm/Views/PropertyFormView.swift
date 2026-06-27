@@ -28,23 +28,8 @@ struct PropertyFormView: View {
         }
 
         VStack(alignment: .leading, spacing: 8) {
-          Text("Property Name")
-            .font(.system(size: 16, weight: .semibold))
-
-          Text(viewModel.propertyName)
-            .font(.system(size: 14, weight: .regular))
-            .padding(.leading, 8)
-
-          divider()
-
-          Text("Property Type")
-            .font(.system(size: 16, weight: .semibold))
-
-          Text(viewModel.propertyType)
-            .font(.system(size: 14, weight: .regular))
-            .padding(.leading, 8)
-
-          divider()
+          LabeledText(title: "Name", text: viewModel.propertyName)
+          LabeledText(title: "Type", text: viewModel.propertyType)
 
           Text("Notes")
             .font(.system(size: 16, weight: .semibold))
@@ -84,17 +69,6 @@ struct PropertyFormView: View {
       ActivityView(items: viewModel.activityItems)
     }
     .task { try? await viewModel.getReverseGeocodeInfo() }
-  }
-}
-
-// MARK: Private Functions
-
-extension PropertyFormView {
-
-  private func divider() -> some View {
-    Divider()
-      .frame(height: 1)
-      .overlay(.placeholder)
   }
 }
 
