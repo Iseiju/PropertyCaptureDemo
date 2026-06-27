@@ -37,18 +37,24 @@ struct HomeView: View {
       ImagePickerView(imageData: $viewModel.capturedImageData)
     }
     .task { try? await viewModel.getProperties() }
+    .onAppear { locationService.requestPermission() }
     .onChange(of: viewModel.capturedImageData) {
-      locationService.requestPermission()
-    }
-    .onChange(of: locationService.currentLocation) {
-      guard let imageData = viewModel.capturedImageData,
-            let currentLocation = locationService.currentLocation
-      else { return }
-
       locationService.stopUpdatingLocation()
-
-      router.push(to: .propertyForm(imageData, currentLocation))
+      pushToPropertyForm()
     }
+  }
+}
+
+// MARK: Navigation
+
+extension HomeView {
+
+  private func pushToPropertyForm() {
+    guard let imageData = viewModel.capturedImageData,
+          let currentLocation = locationService.currentLocation
+    else { return }
+
+    router.push(to: .propertyForm(imageData, currentLocation))
   }
 }
 
