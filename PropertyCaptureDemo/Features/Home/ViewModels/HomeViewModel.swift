@@ -15,9 +15,9 @@ final class HomeViewModel {
   var capturedImageData: Data? = nil
   var isImagePickerPresented: Bool = false
 
-  private let propertyRepository: PropertyRepository
+  private let propertyRepository: PropertyRepositoryProtocol
 
-  init(_ propertyRepository: PropertyRepository) {
+  init(_ propertyRepository: PropertyRepositoryProtocol) {
     self.propertyRepository = propertyRepository
   }
 }

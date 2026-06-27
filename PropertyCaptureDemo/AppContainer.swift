@@ -13,7 +13,8 @@ struct AppContainer {
   let modelContainer: ModelContainer
   let modelContext: ModelContext
 
-  let propertyRepository: PropertyRepository
+  let propertyRepository: PropertyRepositoryProtocol
+  let geocodingAPI: GeocodingAPIProtocol
 
   init() {
     do {
@@ -27,10 +28,13 @@ struct AppContainer {
 
       modelContainer = container
       modelContext = container.mainContext
-      
+
       propertyRepository = PropertyRepository(
         modelContext: container.mainContext
       )
+
+      let networkService = NetworkService()
+      geocodingAPI = networkService
     } catch {
       fatalError("Could not initialize model container: \(error.localizedDescription)")
     }

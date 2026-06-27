@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-final class PropertyRepository {
+final class PropertyRepository: PropertyRepositoryProtocol {
 
   private let modelContext: ModelContext
 
@@ -16,6 +16,8 @@ final class PropertyRepository {
     self.modelContext = modelContext
   }
 }
+
+// MARK: Persistence
 
 extension PropertyRepository {
 
@@ -25,7 +27,7 @@ extension PropertyRepository {
     return try modelContext.fetch(descriptor)
   }
 
-  func saveProperty(_ property: Property) throws {
+  func save(_ property: Property) throws {
     modelContext.insert(property)
 
     try modelContext.save()

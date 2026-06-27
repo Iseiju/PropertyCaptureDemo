@@ -13,10 +13,16 @@ enum PropertyFormFactory {
   static func makePropertyFormView(
     _ imageData: Data,
     _ currentLocation: CLLocation,
-    _ geocodingAPI: GeocodingAPIProtocol = NetworkService.shared
+    _ geocodingAPI: GeocodingAPIProtocol,
+    _ propertyRepository: PropertyRepositoryProtocol
   ) -> some View {
-    return PropertyFormView(
-      PropertyFormViewModel(imageData, currentLocation, geocodingAPI)
+    let viewModel = PropertyFormViewModel(
+      imageData,
+      currentLocation,
+      geocodingAPI,
+      propertyRepository
     )
+
+    return PropertyFormView(viewModel)
   }
 }

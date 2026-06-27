@@ -22,7 +22,13 @@ extension Route {
       HomeFactory.makeHomeView(appContainer.propertyRepository)
 
     case .propertyForm(let imageData, let currentLocation):
-      PropertyFormFactory.makePropertyFormView(imageData, currentLocation)
+      PropertyFormFactory
+        .makePropertyFormView(
+          imageData,
+          currentLocation,
+          appContainer.geocodingAPI,
+          appContainer.propertyRepository
+        )
     }
   }
 }

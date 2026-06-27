@@ -11,6 +11,7 @@ import Foundation
 @Observable
 final class PropertyFormViewModel {
 
+  let formUUID: UUID
   let imageData: Data
 
   var notes: String = ""
@@ -57,16 +58,25 @@ final class PropertyFormViewModel {
 
   private let currentLocation: CLLocation
   private let geocodingAPI: GeocodingAPIProtocol
+  private let propertyRepository: PropertyRepositoryProtocol
 
   init(
     _ imageData: Data,
     _ currentLocation: CLLocation,
-    _ geocodingAPI: GeocodingAPIProtocol
+    _ geocodingAPI: GeocodingAPIProtocol,
+    _ propertyRepository: PropertyRepositoryProtocol
   ) {
+    self.formUUID = UUID()
     self.imageData = imageData
     self.currentLocation = currentLocation
     self.geocodingAPI = geocodingAPI
+    self.propertyRepository = propertyRepository
   }
+}
+
+// MARK: Reverse Geocode Functions
+
+extension PropertyFormViewModel {
 
   func getReverseGeocodeInfo() async throws(AppError) {
     do {
@@ -80,6 +90,11 @@ final class PropertyFormViewModel {
       throw error
     }
   }
+}
+
+// MARK: User Initiated
+
+extension PropertyFormViewModel {
 
   func createActivityItems() {
     guard reverseGeocodeResponse != nil else { return }
@@ -102,5 +117,31 @@ final class PropertyFormViewModel {
 
     activityItems.append(imagePreviewItem)
     activityItems.append(details)
+  }
+}
+
+// MARK: Persistence
+
+extension PropertyFormViewModel {
+
+  func savePhoto() {
+
+  }
+
+  func saveProperty() async throws {
+    do {
+      let property = Property(
+        id: formUUID,
+        imageURL: "",
+        name: propertyName,
+        type: propertyType,
+        address: propertyAddress,
+        notes: notes
+      )
+
+      try propertyRepository.save(property)
+    } catch {
+
+    }
   }
 }

@@ -9,8 +9,6 @@ import Foundation
 
 class NetworkService: NetworkServiceProtocol {
 
-  static let shared = NetworkService()
-
   func request<T: Decodable>(
     api: NetworkAPIProtocol, type: T.Type, timeoutInterval: TimeInterval = 4.0
   ) async throws(AppError) -> T {
