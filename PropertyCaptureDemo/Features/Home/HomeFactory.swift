@@ -9,7 +9,9 @@ import SwiftUI
 
 enum HomeFactory {
 
-  static func makeHomeView() -> some View {
-    return HomeView(HomeViewModel())
+  static func makeHomeView(
+    _ propertyRepository: PropertyRepository
+  ) -> some View {
+    return HomeView(HomeViewModel(propertyRepository))
   }
 }

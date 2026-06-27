@@ -23,7 +23,7 @@ struct PropertyCaptureDemoApp: App {
         LandingFactory.makeLandingView()
           .toolbarTitleDisplayMode(.inline)
           .navigationDestination(for: Route.self) { route in
-            route.destination()
+            route.destination(appContainer)
           }
       }
     }

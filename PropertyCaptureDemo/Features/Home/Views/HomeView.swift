@@ -19,34 +19,37 @@ struct HomeView: View {
   }
 
   var body: some View {
-    Text("Home")
-      .navigationTitle("Home")
-      .navigationBarBackButtonHidden()
-      .toolbar {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button("", systemImage: "camera") {
-            viewModel.isImagePickerPresented.toggle()
-          }
+    List(viewModel.properties) { property in
+      PropertyItemView(property: property)
+    }
+    .navigationTitle("Home")
+    .navigationBarBackButtonHidden()
+    .toolbar {
+      ToolbarItem(placement: .topBarTrailing) {
+        Button("", systemImage: "camera") {
+          viewModel.isImagePickerPresented.toggle()
         }
       }
-      .fullScreenCover(isPresented: $viewModel.isImagePickerPresented) {
-        ImagePickerView(imageData: $viewModel.capturedImageData)
-      }
-      .onChange(of: viewModel.capturedImageData) {
-        locationService.requestPermission()
-      }
-      .onChange(of: locationService.currentLocation) {
-        guard let imageData = viewModel.capturedImageData,
-              let currentLocation = locationService.currentLocation
-        else { return }
+    }
+    .fullScreenCover(isPresented: $viewModel.isImagePickerPresented) {
+      ImagePickerView(imageData: $viewModel.capturedImageData)
+    }
+    .task { try? await viewModel.getProperties() }
+    .onChange(of: viewModel.capturedImageData) {
+      locationService.requestPermission()
+    }
+    .onChange(of: locationService.currentLocation) {
+      guard let imageData = viewModel.capturedImageData,
+            let currentLocation = locationService.currentLocation
+      else { return }
 
-        locationService.stopUpdatingLocation()
+      locationService.stopUpdatingLocation()
 
-        router.push(to: .propertyForm(imageData, currentLocation))
-      }
+      router.push(to: .propertyForm(imageData, currentLocation))
+    }
   }
 }
 
-#Preview {
-  HomeView(.init())
-}
+//#Preview {
+//  HomeView(.init())
+//}

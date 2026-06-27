@@ -16,10 +16,10 @@ enum Route: Hashable {
 extension Route {
 
   @ViewBuilder
-  func destination() -> some View {
+  func destination(_ appContainer: AppContainer) -> some View {
     switch self {
     case .home:
-      HomeFactory.makeHomeView()
+      HomeFactory.makeHomeView(appContainer.propertyRepository)
 
     case .propertyForm(let imageData, let currentLocation):
       PropertyFormFactory.makePropertyFormView(imageData, currentLocation)

@@ -14,6 +14,7 @@ final class Property {
   @Attribute(.unique)
   var id: UUID
 
+  var imageURL: String
   var name: String
   var type: String
   var address: String
@@ -21,15 +22,32 @@ final class Property {
 
   init(
     id: UUID = UUID(),
+    imageURL: String,
     name: String,
     type: String,
     address: String,
     notes: String
   ) {
     self.id = id
+    self.imageURL = imageURL
     self.name = name
     self.type = type
     self.address = address
     self.notes = notes
+  }
+}
+
+// MARK: Dummy Data
+
+extension Property {
+
+  static func dummyData() -> Property {
+    return Property(
+      imageURL: "",
+      name: "Sample Name",
+      type: "Sample Type",
+      address: "Sample Address",
+      notes: "Sample Notes"
+    )
   }
 }
