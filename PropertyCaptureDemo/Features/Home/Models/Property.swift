@@ -14,7 +14,7 @@ final class Property {
   @Attribute(.unique)
   var id: UUID
 
-  var imageURL: String
+  var imageURL: URL
   var name: String
   var type: String
   var address: String
@@ -22,7 +22,7 @@ final class Property {
 
   init(
     id: UUID = UUID(),
-    imageURL: String,
+    imageURL: URL,
     name: String,
     type: String,
     address: String,
@@ -43,7 +43,7 @@ extension Property {
 
   static func dummyProperty() -> Property {
     return Property(
-      imageURL: "",
+      imageURL: URL(fileURLWithPath: "/tmp/dummy.png"),
       name: "Sample Name",
       type: "Sample Type",
       address: "Sample Address",

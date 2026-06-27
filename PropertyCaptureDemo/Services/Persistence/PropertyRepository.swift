@@ -27,14 +27,15 @@ extension PropertyRepository {
     return try modelContext.fetch(descriptor)
   }
 
-  func save(_ property: Property) throws {
-    let propertyId = property.id
+  func getProperty(for uuid: UUID) throws -> Property? {
     let descriptor = FetchDescriptor<Property>(
-      predicate: #Predicate { $0.id == propertyId }
+      predicate: #Predicate { $0.id == uuid }
     )
+    
+    return try modelContext.fetch(descriptor).first
+  }
 
-    guard (try modelContext.fetch(descriptor).first) != nil else { return }
-
+  func save(_ property: Property) throws {
     modelContext.insert(property)
 
     try modelContext.save()

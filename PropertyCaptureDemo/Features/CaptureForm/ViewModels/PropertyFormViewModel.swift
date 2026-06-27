@@ -7,6 +7,7 @@
 
 import CoreLocation
 import Foundation
+import UniformTypeIdentifiers
 
 @Observable
 final class PropertyFormViewModel {
@@ -124,15 +125,27 @@ extension PropertyFormViewModel {
 
 extension PropertyFormViewModel {
 
-  func savePhoto() {
+  func saveDataToTempDirectory(_ imageData: Data) throws -> URL {
+    let filename = "\(propertyName)-\(formUUID.uuidString)"
+    let url = FileManager.default.temporaryDirectory
+      .appendingPathComponent(filename)
+      .appendingPathExtension(for: .png)
 
+    try imageData.write(to: url)
+
+    return url
   }
 
-  func saveProperty() async throws {
+  func saveProperty() throws {
     do {
+      guard (try propertyRepository
+        .getProperty(for: formUUID)) == nil
+      else { return }
+
+      let imageUrl = try saveDataToTempDirectory(imageData)
       let property = Property(
         id: formUUID,
-        imageURL: "",
+        imageURL: imageUrl,
         name: propertyName,
         type: propertyType,
         address: propertyAddress,
@@ -141,7 +154,7 @@ extension PropertyFormViewModel {
 
       try propertyRepository.save(property)
     } catch {
-
+      throw error
     }
   }
 }

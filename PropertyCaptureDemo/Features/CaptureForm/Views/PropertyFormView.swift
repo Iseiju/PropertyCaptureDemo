@@ -53,6 +53,8 @@ struct PropertyFormView: View {
 
           viewModel.createActivityItems()
           viewModel.isActivityViewPresented.toggle()
+
+          try? viewModel.saveProperty()
         } label: {
           Text("Send")
             .font(.system(size: 16, weight: .semibold))
