@@ -17,7 +17,8 @@ struct PropertyItemView: View {
         Image(uiImage: image)
           .resizable()
           .scaledToFill()
-          .frame(height: 240)
+          .frame(height: 260)
+          .clipped()
       }
 
       VStack(alignment: .leading, spacing: 4) {
