@@ -21,6 +21,8 @@ final class PropertyFormViewModel {
     return reverseGeocodeResponse?.type.capitalized ?? ""
   }
 
+  var isActivityViewPresented: Bool = false
+
   private var reverseGeocodeResponse: ReverseGeocodeResponse?
 
   private let currentLocation: CLLocation
