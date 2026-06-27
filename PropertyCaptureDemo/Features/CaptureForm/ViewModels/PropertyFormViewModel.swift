@@ -23,7 +23,7 @@ final class PropertyFormViewModel {
 
   var isActivityViewPresented: Bool = false
 
-  private(set) var activityItems: [ActivityItem] = []
+  private(set) var activityItems: [Any] = []
   private var reverseGeocodeResponse: ReverseGeocodeResponse?
 
   private let currentLocation: CLLocation
@@ -60,5 +60,6 @@ final class PropertyFormViewModel {
     )
 
     activityItems.append(imagePreviewItem)
+    activityItems.append("Property Name: \(propertyName)\nProperty Type: \(propertyType)")
   }
 }
