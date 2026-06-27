@@ -9,12 +9,12 @@ import Foundation
 
 struct Address: Decodable {
 
-  var road: String
-  var quarter: String
-  var suburb: String
-  var city: String
-  var region: String
-  var postcode: String
+  var road: String?
+  var quarter: String?
+  var suburb: String?
+  var city: String?
+  var region: String?
+  var postcode: String?
   var country: String
 
   static func dummyData() -> Self {
