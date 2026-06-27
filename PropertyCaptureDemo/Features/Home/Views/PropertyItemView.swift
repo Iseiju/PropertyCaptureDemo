@@ -17,5 +17,5 @@ struct PropertyItemView: View {
 }
 
 #Preview {
-  PropertyItemView(property: .dummyData())
+  PropertyItemView(property: .dummyProperty())
 }

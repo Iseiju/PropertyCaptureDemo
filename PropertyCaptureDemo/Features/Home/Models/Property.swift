@@ -41,7 +41,7 @@ final class Property {
 
 extension Property {
 
-  static func dummyData() -> Property {
+  static func dummyProperty() -> Property {
     return Property(
       imageURL: "",
       name: "Sample Name",
@@ -49,5 +49,9 @@ extension Property {
       address: "Sample Address",
       notes: "Sample Notes"
     )
+  }
+
+  static func dummyProperties() -> [Property] {
+    return [dummyProperty(), dummyProperty(), dummyProperty()]
   }
 }

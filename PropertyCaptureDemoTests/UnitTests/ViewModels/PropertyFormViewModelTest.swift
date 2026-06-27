@@ -118,19 +118,29 @@ final class PropertyFormViewModelTest: XCTestCase {
 extension PropertyFormViewModelTest {
 
   private func makeSpyPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPISpy) {
-    let geocodingAPISpy = GeocodingAPISpy()
     let imageData = Data(repeating: 0xFF, count: 1024)
-    let location = CLLocation(latitude: 7.087357181983118, longitude: 125.66729262828807)
-    let sut = PropertyFormViewModel(imageData, location, geocodingAPISpy)
+    let location = CLLocation(
+      latitude: 7.087357181983118, longitude: 125.66729262828807
+    )
+    let geocodingAPISpy = GeocodingAPISpy()
+    let propertyRepositoryMock = PropertyRepositoryMock()
+    let sut = PropertyFormViewModel(
+      imageData, location, geocodingAPISpy, propertyRepositoryMock
+    )
 
     return (sut, geocodingAPISpy)
   }
 
   private func makeMockPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPIMock) {
-    let geocodingAPIMock = GeocodingAPIMock()
     let imageData = Data(repeating: 0xFF, count: 1024)
-    let location = CLLocation(latitude: 7.087357181983118, longitude: 125.66729262828807)
-    let sut = PropertyFormViewModel(imageData, location, geocodingAPIMock)
+    let location = CLLocation(
+      latitude: 7.087357181983118, longitude: 125.66729262828807
+    )
+    let geocodingAPIMock = GeocodingAPIMock()
+    let propertyRepositoryMock = PropertyRepositoryMock()
+    let sut = PropertyFormViewModel(
+      imageData, location, geocodingAPIMock, propertyRepositoryMock
+    )
 
     return (sut, geocodingAPIMock)
   }
