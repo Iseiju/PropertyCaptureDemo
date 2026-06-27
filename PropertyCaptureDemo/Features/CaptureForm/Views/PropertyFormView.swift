@@ -24,7 +24,6 @@ struct PropertyFormView: View {
             .resizable()
             .scaledToFill()
             .frame(height: 400)
-            .clipped()
             .clipShape(.rect(cornerRadius: 8))
         }
 

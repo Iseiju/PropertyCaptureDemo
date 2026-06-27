@@ -13,7 +13,11 @@ final class PropertyRepositoryMock: PropertyRepositoryProtocol {
   func getProperties() async throws -> [Property] {
     return Property.dummyProperties()
   }
-  
+
+  func getProperty(for uuid: UUID) throws -> Property? {
+    return Property.dummyProperty()
+  }
+
   func save(_ property: Property) throws {
     print("DUMMY SAVE")
   }

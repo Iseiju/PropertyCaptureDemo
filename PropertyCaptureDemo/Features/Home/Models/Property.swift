@@ -14,7 +14,9 @@ final class Property {
   @Attribute(.unique)
   var id: UUID
 
-  var imageURL: URL
+  @Attribute(.externalStorage)
+  var imageData: Data
+
   var name: String
   var type: String
   var address: String
@@ -22,14 +24,14 @@ final class Property {
 
   init(
     id: UUID = UUID(),
-    imageURL: URL,
+    imageData: Data,
     name: String,
     type: String,
     address: String,
     notes: String
   ) {
     self.id = id
-    self.imageURL = imageURL
+    self.imageData = imageData
     self.name = name
     self.type = type
     self.address = address
@@ -43,7 +45,7 @@ extension Property {
 
   static func dummyProperty() -> Property {
     return Property(
-      imageURL: URL(fileURLWithPath: "/tmp/dummy.png"),
+      imageData: Data(repeating: 0xFF, count: 1024),
       name: "Sample Name",
       type: "Sample Type",
       address: "Sample Address",

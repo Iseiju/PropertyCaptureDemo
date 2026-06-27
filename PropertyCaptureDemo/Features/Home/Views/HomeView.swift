@@ -21,7 +21,9 @@ struct HomeView: View {
   var body: some View {
     List(viewModel.properties) { property in
       PropertyItemView(property: property)
+        .listRowSeparator(.hidden)
     }
+    .listStyle(.plain)
     .navigationTitle("Home")
     .navigationBarBackButtonHidden()
     .toolbar {

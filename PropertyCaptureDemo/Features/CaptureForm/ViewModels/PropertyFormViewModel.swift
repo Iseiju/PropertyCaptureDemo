@@ -125,27 +125,15 @@ extension PropertyFormViewModel {
 
 extension PropertyFormViewModel {
 
-  func saveDataToTempDirectory(_ imageData: Data) throws -> URL {
-    let filename = "\(propertyName)-\(formUUID.uuidString)"
-    let url = FileManager.default.temporaryDirectory
-      .appendingPathComponent(filename)
-      .appendingPathExtension(for: .png)
-
-    try imageData.write(to: url)
-
-    return url
-  }
-
   func saveProperty() throws {
     do {
       guard (try propertyRepository
         .getProperty(for: formUUID)) == nil
       else { return }
 
-      let imageUrl = try saveDataToTempDirectory(imageData)
       let property = Property(
         id: formUUID,
-        imageURL: imageUrl,
+        imageData: imageData,
         name: propertyName,
         type: propertyType,
         address: propertyAddress,
