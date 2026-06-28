@@ -16,7 +16,7 @@ final class PropertyRepositoryMock: PropertyRepositoryProtocol {
     self.properties = Property.dummyProperties()
   }
 
-  func getProperties() async throws -> [Property] {
+  func getProperties() throws -> [Property] {
     return properties
   }
 
