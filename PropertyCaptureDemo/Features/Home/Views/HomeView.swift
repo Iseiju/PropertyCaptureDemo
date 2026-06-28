@@ -22,7 +22,10 @@ struct HomeView: View {
     List(viewModel.properties) { property in
       PropertyItemView(property: property)
         .listRowSeparator(.hidden)
-        .onTapGesture { router.push(to: .propertyDetails(property)) }
+        .onTapGesture {
+          locationService.stopUpdatingLocation()
+          router.push(to: .propertyDetails(property))
+        }
     }
     .listStyle(.plain)
     .navigationTitle("Home")
