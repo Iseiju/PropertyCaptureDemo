@@ -10,24 +10,22 @@ import Foundation
 
 final class PropertyCaptureViewModel: BasePropertyFormViewModel {
 
-  private var formUUID: UUID
-  private var currentLocation: CLLocation
+  private let formUUID: UUID
+  private let currentLocation: CLLocation
 
-  private var geocodingAPI: GeocodingAPIProtocol
-  private var propertyRepository: PropertyRepositoryProtocol
+  private let geocodingAPI: GeocodingAPIProtocol
 
   init(
-    _ imageData: Data,
-    _ currentLocation: CLLocation,
-    _ geocodingAPI: GeocodingAPIProtocol,
-    _ propertyRepository: PropertyRepositoryProtocol
+    imageData: Data,
+    currentLocation: CLLocation,
+    geocodingAPI: GeocodingAPIProtocol,
+    propertyRepository: PropertyRepositoryProtocol
   ) {
     self.formUUID = UUID()
     self.currentLocation = currentLocation
     self.geocodingAPI = geocodingAPI
-    self.propertyRepository = propertyRepository
 
-    super.init(imageData)
+    super.init(imageData: imageData, propertyRepository: propertyRepository)
   }
 
   override func getReverseGeocodeInfo() async throws(AppError) {
@@ -43,9 +41,11 @@ final class PropertyCaptureViewModel: BasePropertyFormViewModel {
   }
 
   override func saveProperty() throws {
-    guard (try propertyRepository
-      .getProperty(for: formUUID)) == nil
-    else { return }
+    if let existingProperty = try propertyRepository.getProperty(for: formUUID) {
+      existingProperty.notes = notes
+
+      return try propertyRepository.save()
+    }
 
     let property = Property(
       id: formUUID,
@@ -56,7 +56,7 @@ final class PropertyCaptureViewModel: BasePropertyFormViewModel {
       notes: notes
     )
 
-    try propertyRepository.save(property)
+    try propertyRepository.insert(property)
   }
 }
 

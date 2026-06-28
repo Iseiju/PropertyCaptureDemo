@@ -9,12 +9,24 @@ import Foundation
 
 final class PropertyDetailsViewModel: BasePropertyFormViewModel {
 
-  init(_ property: Property) {
-    super.init(property.imageData)
+  private let property: Property
+
+  init(property: Property, propertyRepository: PropertyRepositoryProtocol) {
+    self.property = property
+
+    super.init(
+      imageData: property.imageData, propertyRepository: propertyRepository
+    )
 
     propertyName = property.name
     propertyType = property.type
     propertyAddress = property.address
     notes = property.notes
+  }
+
+  override func saveProperty() throws {
+    property.notes = notes
+
+    try propertyRepository.save()
   }
 }

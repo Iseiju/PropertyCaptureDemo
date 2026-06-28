@@ -11,5 +11,6 @@ protocol PropertyRepositoryProtocol {
 
   func getProperties() async throws -> [Property]
   func getProperty(for uuid: UUID) throws -> Property?
-  func save(_ property: Property) throws
+  func insert(_ property: Property) throws
+  func save() throws
 }

@@ -35,9 +35,13 @@ extension PropertyRepository {
     return try modelContext.fetch(descriptor).first
   }
 
-  func save(_ property: Property) throws {
+  func insert(_ property: Property) throws {
     modelContext.insert(property)
 
+    try modelContext.save()
+  }
+
+  func save() throws {
     try modelContext.save()
   }
 }

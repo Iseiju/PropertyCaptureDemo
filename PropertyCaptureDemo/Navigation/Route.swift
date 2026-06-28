@@ -23,7 +23,10 @@ extension Route {
       HomeFactory.makeHomeView(appContainer.propertyRepository)
 
     case .propertyDetails(let property):
-      PropertyFormFactory.makePropertyFormView(property)
+      PropertyFormFactory
+        .makePropertyFormView(
+          property: property, propertyRepository: appContainer.propertyRepository
+        )
 
     case .propertyForm(let imageData, let currentLocation):
       PropertyFormFactory

@@ -98,7 +98,11 @@ extension PropertyFormView {
 }
 
 #Preview {
-  let vm = PropertyDetailsViewModel(.dummyProperty())
+  let container = AppContainer()
+  let vm = PropertyDetailsViewModel(
+    property: .dummyProperty(),
+    propertyRepository: container.propertyRepository
+  )
 
   PropertyFormView(vm)
 }

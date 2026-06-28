@@ -47,9 +47,14 @@ class BasePropertyFormViewModel {
   }
 
   let imageData: Data
+  let propertyRepository: PropertyRepositoryProtocol
 
-  init(_ imageData: Data) {
+  init(
+    imageData: Data,
+    propertyRepository: PropertyRepositoryProtocol
+  ) {
     self.imageData = imageData
+    self.propertyRepository = propertyRepository
   }
 
   /// Override Functions
