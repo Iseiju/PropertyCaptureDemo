@@ -12,7 +12,6 @@ struct HomeView: View {
   @State private var viewModel: HomeViewModel
 
   @Environment(Router.self) private var router
-  @Environment(LocationService.self) private var locationService
 
   init(_ viewModel: HomeViewModel) {
     _viewModel = State(wrappedValue: viewModel)
@@ -23,7 +22,7 @@ struct HomeView: View {
       PropertyItemView(property: property)
         .listRowSeparator(.hidden)
         .onTapGesture {
-          locationService.stopUpdatingLocation()
+          viewModel.stopUpdatingLocation()
           router.push(to: .propertyDetails(property))
         }
     }
@@ -41,9 +40,9 @@ struct HomeView: View {
       ImagePickerView(imageData: $viewModel.capturedImageData)
     }
     .task { try? await viewModel.getProperties() }
-    .onAppear { locationService.requestPermission() }
+    .onAppear { viewModel.requestLocationPermission() }
     .onChange(of: viewModel.capturedImageData) {
-      locationService.stopUpdatingLocation()
+      viewModel.stopUpdatingLocation()
       pushToPropertyForm()
     }
   }
@@ -55,7 +54,7 @@ extension HomeView {
 
   private func pushToPropertyForm() {
     guard let data = viewModel.capturedImageData,
-          let location = locationService.currentLocation
+          let location = viewModel.currentLocation
     else { return }
 
     router.push(to: .propertyForm(imageData: data, currentLocation: location))
@@ -64,6 +63,10 @@ extension HomeView {
 
 #Preview {
   let container = AppContainer()
+  let vm = HomeViewModel(
+    locationService: container.locationService,
+    propertyRepository: container.propertyRepository
+  )
 
-  HomeView(HomeViewModel(container.propertyRepository))
+  HomeView(vm)
 }

@@ -7,17 +7,8 @@
 
 import CoreLocation
 
-protocol LocationServiceProtocol {
-
-  var currentLocation: CLLocation? { get }
-
-  func requestPermission()
-  func startUpdatingLocation()
-  func stopUpdatingLocation()
-}
-
 @Observable
-final class LocationService: NSObject, LocationServiceProtocol {
+final class LocationService: NSObject {
 
   var currentLocation: CLLocation?
   var authStatus: CLAuthorizationStatus = .notDetermined

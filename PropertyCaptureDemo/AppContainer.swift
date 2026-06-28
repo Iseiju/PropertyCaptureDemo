@@ -13,6 +13,8 @@ struct AppContainer {
   let modelContainer: ModelContainer
   let modelContext: ModelContext
 
+  let locationService: LocationService
+
   let propertyRepository: PropertyRepositoryProtocol
   let geocodingAPI: GeocodingAPIProtocol
 
@@ -28,6 +30,8 @@ struct AppContainer {
 
       modelContainer = container
       modelContext = container.mainContext
+
+      locationService = LocationService()
 
       propertyRepository = PropertyRepository(
         modelContext: container.mainContext

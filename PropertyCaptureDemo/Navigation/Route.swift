@@ -20,12 +20,17 @@ extension Route {
   func destination(_ appContainer: AppContainer) -> some View {
     switch self {
     case .home:
-      HomeFactory.makeHomeView(appContainer.propertyRepository)
+      HomeFactory
+        .makeHomeView(
+          locationService: appContainer.locationService,
+          propertyRepository: appContainer.propertyRepository
+        )
 
     case .propertyDetails(let property):
       PropertyFormFactory
         .makePropertyFormView(
-          property: property, propertyRepository: appContainer.propertyRepository
+          property: property,
+          propertyRepository: appContainer.propertyRepository
         )
 
     case .propertyForm(let imageData, let currentLocation):

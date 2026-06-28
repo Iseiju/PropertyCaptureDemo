@@ -13,8 +13,6 @@ struct PropertyCaptureDemoApp: App {
 
   @State private var router = Router()
 
-  @State private var locationService = LocationService()
-
   private let appContainer = AppContainer()
 
   var body: some Scene {
@@ -28,7 +26,6 @@ struct PropertyCaptureDemoApp: App {
       }
     }
     .environment(router)
-    .environment(locationService)
     .modelContainer(appContainer.modelContainer)
   }
 }

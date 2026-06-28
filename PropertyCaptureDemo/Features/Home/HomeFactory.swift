@@ -10,10 +10,13 @@ import SwiftUI
 enum HomeFactory {
 
   static func makeHomeView(
-    _ propertyRepository: PropertyRepositoryProtocol
+    locationService: LocationService,
+    propertyRepository: PropertyRepositoryProtocol
   ) -> some View {
-    let viewModel = HomeViewModel(propertyRepository)
-    
+    let viewModel = HomeViewModel(
+      locationService: locationService, propertyRepository: propertyRepository
+    )
+
     return HomeView(viewModel)
   }
 }
