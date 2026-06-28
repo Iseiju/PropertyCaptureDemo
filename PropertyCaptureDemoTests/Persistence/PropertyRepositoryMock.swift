@@ -18,7 +18,11 @@ final class PropertyRepositoryMock: PropertyRepositoryProtocol {
     return Property.dummyProperty()
   }
 
-  func save(_ property: Property) throws {
+  func insert(_ property: Property) throws {
+    print("DUMMY INSERT")
+  }
+
+  func save() throws {
     print("DUMMY SAVE")
   }
 }

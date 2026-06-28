@@ -124,7 +124,10 @@ extension PropertyCaptureViewModelTest {
     let geocodingAPISpy = GeocodingAPISpy()
     let propertyRepositoryMock = PropertyRepositoryMock()
     let sut = PropertyCaptureViewModel(
-      imageData, location, geocodingAPISpy, propertyRepositoryMock
+      imageData: imageData,
+      currentLocation: location,
+      geocodingAPI: geocodingAPISpy,
+      propertyRepository: propertyRepositoryMock
     )
 
     return (sut, geocodingAPISpy)
@@ -138,7 +141,10 @@ extension PropertyCaptureViewModelTest {
     let geocodingAPIMock = GeocodingAPIMock()
     let propertyRepositoryMock = PropertyRepositoryMock()
     let sut = PropertyCaptureViewModel(
-      imageData, location, geocodingAPIMock, propertyRepositoryMock
+      imageData: imageData,
+      currentLocation: location,
+      geocodingAPI: geocodingAPIMock,
+      propertyRepository: propertyRepositoryMock
     )
 
     return (sut, geocodingAPIMock)
