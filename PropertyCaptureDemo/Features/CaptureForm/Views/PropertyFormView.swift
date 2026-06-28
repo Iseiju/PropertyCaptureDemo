@@ -24,26 +24,17 @@ struct PropertyFormView: View {
             .resizable()
             .scaledToFill()
             .frame(height: 400)
-            .clipShape(.rect(cornerRadius: 8))
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .overlay {
+              RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .strokeBorder(.black, lineWidth: 1)
+            }
         }
 
-        VStack(alignment: .leading, spacing: 8) {
-          LabeledText(title: "Name", text: viewModel.propertyName)
-          LabeledText(title: "Type", text: viewModel.propertyType)
-          LabeledText(title: "Address", text: viewModel.propertyAddress)
-
-          Text("Notes")
-            .font(.system(size: 16, weight: .semibold))
-            .padding(.top, 12)
-
-          TextEditor(text: $viewModel.notes)
-            .font(.system(size: 14, weight: .regular))
-            .frame(height: 60)
-            .padding(12)
-            .overlay {
-              RoundedRectangle(cornerRadius: 8)
-                .stroke(.gray, lineWidth: 1.0)
-            }
+        if viewModel.isRequesting {
+          placeholder()
+        } else {
+          propertyDetails()
         }
 
         Spacer()
@@ -71,6 +62,37 @@ struct PropertyFormView: View {
       ActivityView(items: viewModel.activityItems)
     }
     .task { try? await viewModel.getReverseGeocodeInfo() }
+  }
+}
+
+// MARK: View Functions
+
+extension PropertyFormView {
+
+  private func propertyDetails() -> some View {
+    VStack(alignment: .leading, spacing: 8) {
+      LabeledText(title: "Name", text: viewModel.propertyName)
+      LabeledText(title: "Type", text: viewModel.propertyType)
+      LabeledText(title: "Address", text: viewModel.propertyAddress)
+
+      Text("Notes")
+        .font(.system(size: 16, weight: .semibold))
+        .padding(.top, 12)
+
+      TextEditor(text: $viewModel.notes)
+        .font(.system(size: 14, weight: .regular))
+        .frame(height: 60)
+        .padding(12)
+        .overlay {
+          RoundedRectangle(cornerRadius: 8)
+            .stroke(.gray, lineWidth: 1.0)
+        }
+    }
+  }
+
+  private func placeholder() -> some View {
+    propertyDetails()
+      .redacted(reason: .placeholder)
   }
 }
 

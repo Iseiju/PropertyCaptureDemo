@@ -31,6 +31,9 @@ final class PropertyCaptureViewModel: BasePropertyFormViewModel {
   }
 
   override func getReverseGeocodeInfo() async throws(AppError) {
+    isRequesting = true
+    defer { isRequesting = false }
+
     let latitude = currentLocation.coordinate.latitude
     let longitude = currentLocation.coordinate.longitude
     let reverseGeocodeResponse = try await geocodingAPI
