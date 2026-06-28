@@ -19,11 +19,17 @@ struct AppContainer {
   let geocodingAPI: GeocodingAPIProtocol
 
   init() {
+    locationService = LocationService()
+
+    let networkService = NetworkService()
+    geocodingAPI = networkService
+
+    let schema = Schema([Property.self])
+    let configuration = ModelConfiguration(
+      schema: schema, isStoredInMemoryOnly: false
+    )
+
     do {
-      let schema = Schema([Property.self])
-      let configuration = ModelConfiguration(
-        schema: schema, isStoredInMemoryOnly: false
-      )
       let container = try ModelContainer(
         for: schema, configurations: configuration
       )
@@ -31,14 +37,9 @@ struct AppContainer {
       modelContainer = container
       modelContext = container.mainContext
 
-      locationService = LocationService()
-
       propertyRepository = PropertyRepository(
         modelContext: container.mainContext
       )
-
-      let networkService = NetworkService()
-      geocodingAPI = networkService
     } catch {
       fatalError("Could not initialize model container: \(error.localizedDescription)")
     }
