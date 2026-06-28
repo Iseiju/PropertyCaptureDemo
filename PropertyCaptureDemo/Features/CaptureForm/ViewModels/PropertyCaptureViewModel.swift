@@ -63,7 +63,8 @@ extension PropertyCaptureViewModel {
 
   private func mapResponse(from response: ReverseGeocodeResponse) {
     propertyName = response.name.capitalized
-    propertyType = response.type.capitalized
+    propertyType = response
+      .type.replacingOccurrences(of: "_", with: " ").capitalized
     propertyAddress = formatAddress(from: response.address)
   }
 
