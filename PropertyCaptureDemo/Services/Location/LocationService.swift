@@ -34,6 +34,8 @@ final class LocationService: NSObject, LocationServiceProtocol {
 
   func requestPermission() {
     locationManager.requestWhenInUseAuthorization()
+
+    handleAuthStatus(authStatus)
   }
 
   func startUpdatingLocation() {
@@ -63,7 +65,15 @@ extension LocationService: CLLocationManagerDelegate {
 
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     authStatus = manager.authorizationStatus
+    handleAuthStatus(manager.authorizationStatus)
+  }
+}
 
+// MARK: Private Functions
+
+extension LocationService {
+
+  private func handleAuthStatus(_ authStatus: CLAuthorizationStatus) {
     switch authStatus {
     case .authorizedAlways, .authorizedWhenInUse:
       startUpdatingLocation()
