@@ -29,6 +29,6 @@ jobs:
         run: |
           xcodebuild test \
             -project PropertyCaptureDemo.xcodeproj \
-            -scheme PropertyCaptureDemo \
+            -scheme PropertyCaptureDemoTests \
             -destination 'platform=iOS Simulator,name=iPhone 16' \
             -only-testing:PropertyCaptureDemoTests
