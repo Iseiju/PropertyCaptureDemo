@@ -121,11 +121,13 @@ final class PropertyCaptureViewModelTest: XCTestCase {
 
     try? sut.saveProperty()
 
-    XCTAssertNotNil(mockRepository.properties.first(where: { $0.id == uuid }))
-    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.name, "Crusoe Cabins At Costa Azalea")
-    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.type, "Beach Resort")
-    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.address, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
-    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.notes, "Sample Notes")
+    let mockProperty = mockRepository.properties.first(where: { $0.id == uuid })
+
+    XCTAssertNotNil(mockProperty)
+    XCTAssertEqual(mockProperty?.name, "Crusoe Cabins At Costa Azalea")
+    XCTAssertEqual(mockProperty?.type, "Beach Resort")
+    XCTAssertEqual(mockProperty?.address, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
+    XCTAssertEqual(mockProperty?.notes, "Sample Notes")
   }
 }
 
