@@ -33,3 +33,4 @@ jobs:
             -project PropertyCaptureDemo.xcodeproj \
             -scheme PropertyCaptureDemo \
             -destination 'platform=iOS Simulator,name=iPhone 16'
+            -only-testing:PropertyCaptureDemoTests
