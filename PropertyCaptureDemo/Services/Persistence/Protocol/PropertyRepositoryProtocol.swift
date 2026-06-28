@@ -9,7 +9,7 @@ import Foundation
 
 protocol PropertyRepositoryProtocol {
 
-  func getProperties() async throws -> [Property]
+  func getProperties() throws -> [Property]
   func getProperty(for uuid: UUID) throws -> Property?
   func insert(_ property: Property) throws
   func save() throws

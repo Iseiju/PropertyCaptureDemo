@@ -39,8 +39,10 @@ struct HomeView: View {
     .fullScreenCover(isPresented: $viewModel.isImagePickerPresented) {
       ImagePickerView(imageData: $viewModel.capturedImageData)
     }
-    .task { try? await viewModel.getProperties() }
-    .onAppear { viewModel.requestLocationPermission() }
+    .onAppear {
+      viewModel.getProperties()
+      viewModel.requestLocationPermission()
+    }
     .onDisappear { viewModel.stopUpdatingLocation() }
     .onChange(of: viewModel.capturedImageData) {
       pushToPropertyForm()

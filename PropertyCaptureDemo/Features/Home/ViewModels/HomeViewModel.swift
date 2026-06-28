@@ -36,8 +36,12 @@ final class HomeViewModel {
 
 extension HomeViewModel {
 
-  func getProperties() async throws {
-    properties = try await propertyRepository.getProperties()
+  func getProperties() {
+    guard let properties = try? propertyRepository
+      .getProperties()
+    else { return }
+
+    self.properties = properties
   }
 }
 
