@@ -13,15 +13,15 @@ import CoreLocation
 final class PropertyCaptureViewModelTest: XCTestCase {
 
   func testGetReverseGeocodeInfoCalled() async {
-    let (sut, spy) = makeSpyPropertyFormVM()
+    let (sut, spyAPI, _) = makeSpyPropertyFormVM()
 
     try? await sut.getReverseGeocodeInfo()
 
-    XCTAssertEqual(spy.called, [.getReverseGeocodeInfo(7.087357181983118, 125.66729262828807)])
+    XCTAssertEqual(spyAPI.called, [.getReverseGeocodeInfo(7.087357181983118, 125.66729262828807)])
   }
 
   func testGetReverseGeocodeInfoSuccess() async {
-    let (sut, mock) = makeMockPropertyFormVM()
+    let (sut, mockAPI, _) = makeMockPropertyFormVM()
     let stubAddress = Address(
       road: "Circumferential Road",
       quarter: nil,
@@ -38,7 +38,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
       address: stubAddress
     )
 
-    mock.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
+    mockAPI.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
 
     do {
       try await sut.getReverseGeocodeInfo()
@@ -52,8 +52,8 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   }
 
   func testGetReverseGeocodeInfoFailed() async {
-    let (sut, mock) = makeMockPropertyFormVM()
-    mock.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: "Unknown Error"))
+    let (sut, mockAPI, _) = makeMockPropertyFormVM()
+    mockAPI.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: "Unknown Error"))
 
     do {
       try await sut.getReverseGeocodeInfo()
@@ -68,7 +68,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   }
 
   func testCreateActivityItemsHasGeocodeInfo() async {
-    let (sut, mock) = makeMockPropertyFormVM()
+    let (sut, mockAPI, _) = makeMockPropertyFormVM()
     let stubAddress = Address(
       road: "Circumferential Road",
       quarter: nil,
@@ -85,7 +85,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
       address: stubAddress
     )
 
-    mock.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
+    mockAPI.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
     try? await sut.getReverseGeocodeInfo()
 
     sut.notes = "Sample Notes"
@@ -99,8 +99,8 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   }
   
   func testCreateActivityItemsNoGeocodeInfo() async {
-    let (sut, mock) = makeMockPropertyFormVM()
-    mock.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: nil))
+    let (sut, mockAPI, _) = makeMockPropertyFormVM()
+    mockAPI.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: nil))
     try? await sut.getReverseGeocodeInfo()
 
     XCTAssertFalse(sut.imageData.isEmpty)
@@ -116,7 +116,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
 
 extension PropertyCaptureViewModelTest {
 
-  private func makeSpyPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPISpy) {
+  private func makeSpyPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPISpy, PropertyRepositoryMock) {
     let imageData = Data(repeating: 0xFF, count: 1024)
     let location = CLLocation(
       latitude: 7.087357181983118, longitude: 125.66729262828807
@@ -130,10 +130,10 @@ extension PropertyCaptureViewModelTest {
       propertyRepository: propertyRepositoryMock
     )
 
-    return (sut, geocodingAPISpy)
+    return (sut, geocodingAPISpy, propertyRepositoryMock)
   }
 
-  private func makeMockPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPIMock) {
+  private func makeMockPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPIMock, PropertyRepositoryMock) {
     let imageData = Data(repeating: 0xFF, count: 1024)
     let location = CLLocation(
       latitude: 7.087357181983118, longitude: 125.66729262828807
@@ -147,6 +147,6 @@ extension PropertyCaptureViewModelTest {
       propertyRepository: propertyRepositoryMock
     )
 
-    return (sut, geocodingAPIMock)
+    return (sut, geocodingAPIMock, propertyRepositoryMock)
   }
 }

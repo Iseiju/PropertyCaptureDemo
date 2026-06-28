@@ -12,7 +12,7 @@ final class PropertyRepositoryMock: PropertyRepositoryProtocol {
 
   private(set) var properties: [Property]
 
-  init(properties: [Property]) {
+  init() {
     self.properties = Property.dummyProperties()
   }
 
