@@ -51,11 +51,11 @@ struct HomeView: View {
 extension HomeView {
 
   private func pushToPropertyForm() {
-    guard let imageData = viewModel.capturedImageData,
-          let currentLocation = locationService.currentLocation
+    guard let data = viewModel.capturedImageData,
+          let location = locationService.currentLocation
     else { return }
 
-    router.push(to: .propertyForm(imageData, currentLocation))
+    router.push(to: .propertyForm(imageData: data, currentLocation: location))
   }
 }
 
