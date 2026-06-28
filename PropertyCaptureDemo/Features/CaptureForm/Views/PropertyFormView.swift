@@ -10,9 +10,9 @@ import SwiftUI
 
 struct PropertyFormView: View {
 
-  @State private var viewModel: PropertyFormViewModel
+  @State private var viewModel: BasePropertyFormViewModel
 
-  init(_ viewModel: PropertyFormViewModel) {
+  init(_ viewModel: BasePropertyFormViewModel) {
     _viewModel = State(wrappedValue: viewModel)
   }
 
@@ -50,8 +50,6 @@ struct PropertyFormView: View {
 
         Button {
           UIApplication.shared.endEditing()
-
-          viewModel.createActivityItems()
           viewModel.isActivityViewPresented.toggle()
 
           try? viewModel.saveProperty()
@@ -77,13 +75,7 @@ struct PropertyFormView: View {
 }
 
 #Preview {
-  let container = AppContainer()
-  let vm = PropertyFormViewModel(
-    Data(),
-    CLLocation(),
-    container.geocodingAPI,
-    container.propertyRepository
-  )
+  let vm = PropertyDetailsViewModel(.dummyProperty())
 
   PropertyFormView(vm)
 }

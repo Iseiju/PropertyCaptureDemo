@@ -10,7 +10,8 @@ import SwiftUI
 
 enum Route: Hashable {
   case home
-  case propertyForm(_ imageData: Data, _ currentLocation: CLLocation)
+  case propertyDetails(_ property: Property)
+  case propertyForm(imageData: Data, currentLocation: CLLocation)
 }
 
 extension Route {
@@ -21,13 +22,16 @@ extension Route {
     case .home:
       HomeFactory.makeHomeView(appContainer.propertyRepository)
 
+    case .propertyDetails(let property):
+      PropertyFormFactory.makePropertyFormView(property)
+
     case .propertyForm(let imageData, let currentLocation):
       PropertyFormFactory
         .makePropertyFormView(
-          imageData,
-          currentLocation,
-          appContainer.geocodingAPI,
-          appContainer.propertyRepository
+          imageData: imageData,
+          currentLocation: currentLocation,
+          geocodingAPI: appContainer.geocodingAPI,
+          propertyRepository: appContainer.propertyRepository
         )
     }
   }

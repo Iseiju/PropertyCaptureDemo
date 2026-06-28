@@ -11,12 +11,20 @@ import SwiftUI
 enum PropertyFormFactory {
 
   static func makePropertyFormView(
-    _ imageData: Data,
-    _ currentLocation: CLLocation,
-    _ geocodingAPI: GeocodingAPIProtocol,
-    _ propertyRepository: PropertyRepositoryProtocol
+    _ property: Property
   ) -> some View {
-    let viewModel = PropertyFormViewModel(
+    let viewModel = PropertyDetailsViewModel(property)
+
+    return PropertyFormView(viewModel)
+  }
+
+  static func makePropertyFormView(
+    imageData: Data,
+    currentLocation: CLLocation,
+    geocodingAPI: GeocodingAPIProtocol,
+    propertyRepository: PropertyRepositoryProtocol
+  ) -> some View {
+    let viewModel = PropertyCaptureViewModel(
       imageData,
       currentLocation,
       geocodingAPI,
