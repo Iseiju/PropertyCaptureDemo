@@ -41,8 +41,8 @@ struct HomeView: View {
     }
     .task { try? await viewModel.getProperties() }
     .onAppear { viewModel.requestLocationPermission() }
+    .onDisappear { viewModel.stopUpdatingLocation() }
     .onChange(of: viewModel.capturedImageData) {
-      viewModel.stopUpdatingLocation()
       pushToPropertyForm()
     }
   }
