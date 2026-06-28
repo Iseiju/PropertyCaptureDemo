@@ -12,8 +12,15 @@ struct LandingView: View {
   @Environment(Router.self) private var router
 
   var body: some View {
-    Text("Landing")
-      .task { await pushToHome() }
+    VStack(alignment: .center, spacing: 20) {
+      Text("Landing")
+
+      ProgressView()
+        .progressViewStyle(.circular)
+        .controlSize(.large)
+        .tint(.black)
+    }
+    .task { await pushToHome() }
   }
 }
 
