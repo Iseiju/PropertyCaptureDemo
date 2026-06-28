@@ -1,5 +1,5 @@
 //
-//  PropertyFormViewModelTest.swift
+//  PropertyCaptureViewModelTest.swift
 //  PropertyFormViewModelText
 //
 //  Created by Kenneth James Uy on 6/26/26.
@@ -10,7 +10,7 @@ import CoreLocation
 @testable import PropertyCaptureDemo
 
 @MainActor
-final class PropertyFormViewModelTest: XCTestCase {
+final class PropertyCaptureViewModelTest: XCTestCase {
 
   func testGetReverseGeocodeInfoCalled() async {
     let (sut, spy) = makeSpyPropertyFormVM()
@@ -43,9 +43,9 @@ final class PropertyFormViewModelTest: XCTestCase {
     do {
       try await sut.getReverseGeocodeInfo()
 
-      XCTAssertNotNil(sut.reverseGeocodeResponse)
-      XCTAssertEqual(sut.reverseGeocodeResponse?.name, "Crusoe Cabins at Costa Azalea")
-      XCTAssertEqual(sut.reverseGeocodeResponse?.address.road, "Circumferential Road")
+      XCTAssertEqual(sut.propertyName, "Crusoe Cabins At Costa Azalea")
+      XCTAssertEqual(sut.propertyType, "Beach Resort")
+      XCTAssertEqual(sut.propertyAddress, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
     } catch {
       XCTFail("Get Reverse Geocode request should succeed")
     }
@@ -60,7 +60,9 @@ final class PropertyFormViewModelTest: XCTestCase {
 
       XCTFail("Get Reverse Geocode request should fail")
     } catch {
-      XCTAssertNil(sut.reverseGeocodeResponse)
+      XCTAssertTrue(sut.propertyName.isBlank)
+      XCTAssertTrue(sut.propertyType.isBlank)
+      XCTAssertTrue(sut.propertyAddress.isBlank)
       XCTAssertEqual(error.localizedDescription, "Unknown Error")
     }
   }
@@ -87,7 +89,6 @@ final class PropertyFormViewModelTest: XCTestCase {
     try? await sut.getReverseGeocodeInfo()
 
     sut.notes = "Sample Notes"
-    sut.createActivityItems()
 
     XCTAssertFalse(sut.imageData.isEmpty)
     XCTAssertFalse(sut.propertyName.isEmpty)
@@ -102,43 +103,41 @@ final class PropertyFormViewModelTest: XCTestCase {
     mock.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: nil))
     try? await sut.getReverseGeocodeInfo()
 
-    sut.createActivityItems()
-
     XCTAssertFalse(sut.imageData.isEmpty)
     XCTAssertTrue(sut.propertyName.isEmpty)
     XCTAssertTrue(sut.propertyType.isEmpty)
     XCTAssertTrue(sut.propertyAddress.isEmpty)
     XCTAssertTrue(sut.notes.isEmpty)
-    XCTAssertTrue(sut.activityItems.isEmpty)
+    XCTAssertFalse(sut.activityItems.isEmpty)
   }
 }
 
 // MARK: Make SUT
 
-extension PropertyFormViewModelTest {
+extension PropertyCaptureViewModelTest {
 
-  private func makeSpyPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPISpy) {
+  private func makeSpyPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPISpy) {
     let imageData = Data(repeating: 0xFF, count: 1024)
     let location = CLLocation(
       latitude: 7.087357181983118, longitude: 125.66729262828807
     )
     let geocodingAPISpy = GeocodingAPISpy()
     let propertyRepositoryMock = PropertyRepositoryMock()
-    let sut = PropertyFormViewModel(
+    let sut = PropertyCaptureViewModel(
       imageData, location, geocodingAPISpy, propertyRepositoryMock
     )
 
     return (sut, geocodingAPISpy)
   }
 
-  private func makeMockPropertyFormVM() -> (PropertyFormViewModel, GeocodingAPIMock) {
+  private func makeMockPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPIMock) {
     let imageData = Data(repeating: 0xFF, count: 1024)
     let location = CLLocation(
       latitude: 7.087357181983118, longitude: 125.66729262828807
     )
     let geocodingAPIMock = GeocodingAPIMock()
     let propertyRepositoryMock = PropertyRepositoryMock()
-    let sut = PropertyFormViewModel(
+    let sut = PropertyCaptureViewModel(
       imageData, location, geocodingAPIMock, propertyRepositoryMock
     )
 
