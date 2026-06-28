@@ -93,6 +93,7 @@ extension PropertyFormView {
   private func placeholder() -> some View {
     propertyDetails()
       .redacted(reason: .placeholder)
+      .disabled(true)
   }
 }
 
