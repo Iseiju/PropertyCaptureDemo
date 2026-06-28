@@ -10,19 +10,25 @@ import Foundation
 
 final class PropertyRepositoryMock: PropertyRepositoryProtocol {
 
+  private(set) var properties: [Property]
+
+  init(properties: [Property]) {
+    self.properties = Property.dummyProperties()
+  }
+
   func getProperties() async throws -> [Property] {
-    return Property.dummyProperties()
+    return properties
   }
 
   func getProperty(for uuid: UUID) throws -> Property? {
-    return Property.dummyProperty()
+    return properties.first { $0.id == uuid }
   }
 
   func insert(_ property: Property) throws {
-    print("DUMMY INSERT")
+    properties.append(property)
   }
 
   func save() throws {
-    print("DUMMY SAVE")
+    // The Property instance is already updated because it's a reference type.
   }
 }
