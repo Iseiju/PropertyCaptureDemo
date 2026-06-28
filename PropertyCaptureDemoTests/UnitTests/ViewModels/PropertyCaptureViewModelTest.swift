@@ -110,6 +110,23 @@ final class PropertyCaptureViewModelTest: XCTestCase {
     XCTAssertTrue(sut.notes.isEmpty)
     XCTAssertFalse(sut.activityItems.isEmpty)
   }
+
+  func testSaveNewProperty() async {
+    let (sut, _, mockRepository) = makeMockPropertyFormVM()
+    let uuid = sut.formUUID
+    sut.propertyName = "Crusoe Cabins At Costa Azalea"
+    sut.propertyType = "Beach Resort"
+    sut.propertyAddress = "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines"
+    sut.notes = "Sample Notes"
+
+    try? sut.saveProperty()
+
+    XCTAssertNotNil(mockRepository.properties.first(where: { $0.id == uuid }))
+    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.name, "Crusoe Cabins At Costa Azalea")
+    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.type, "Beach Resort")
+    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.address, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
+    XCTAssertEqual(mockRepository.properties.first(where: { $0.id == uuid })?.notes, "Sample Notes")
+  }
 }
 
 // MARK: Make SUT

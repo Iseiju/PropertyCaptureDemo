@@ -10,9 +10,9 @@ import Foundation
 
 final class PropertyCaptureViewModel: BasePropertyFormViewModel {
 
-  private let formUUID: UUID
+  private(set) var formUUID: UUID
+  
   private let currentLocation: CLLocation
-
   private let geocodingAPI: GeocodingAPIProtocol
 
   init(
