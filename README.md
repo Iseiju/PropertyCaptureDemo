@@ -1,3 +1,20 @@
+# PropertyCaptureDemo
+
+## Requirements
+
+* Xcode 26 or later
+
+## Setup
+
+1. Open the project in Xcode 26 or later.
+2. Under **Signing & Capabilities**, select your Apple ID under **Team**.
+3. If prompted, update the Bundle Identifier to a unique value.
+4. Build and run.
+
+> **Note:** On the iOS Simulator, the app uses the photo library instead of the camera.
+
+---
+
 # Technical Overview
 
 ## App Architecture
