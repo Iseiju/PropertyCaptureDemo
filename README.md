@@ -127,7 +127,8 @@ Keeping state changes inside the ViewModel maintains a predictable, one-way data
 
 Given additional time, I would prioritize:
 
-* Improved error handling, permission handling, and retry mechanisms.
+* Improved error handling and retry mechanisms.
+* Attach metadata to the photo based on the enriched details.
 * Expanded unit test coverage.
 * A CI/CD pipeline with automated testing.
 * Overall UI/UX polish.
