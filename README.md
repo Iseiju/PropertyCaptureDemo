@@ -13,6 +13,12 @@
 
 > **Note:** On the iOS Simulator, the app uses the photo library instead of the camera.
 
+## Running Unit Tests
+
+1. Complete the setup steps above.
+2. Select the **PropertyCaptureDemoTests** scheme.
+3. Press **⌘U** or choose **Product → Test**.
+
 ---
 
 # Technical Overview
