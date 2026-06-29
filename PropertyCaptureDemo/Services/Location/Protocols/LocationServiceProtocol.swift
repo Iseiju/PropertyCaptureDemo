@@ -10,8 +10,6 @@ import CoreLocation
 protocol LocationServiceProtocol {
 
   var isAuthorized: Bool { get }
-
-  var authStatus: CLAuthorizationStatus { get }
   var currentLocation: CLLocation? { get }
 
   func requestLocationAuthorization()
