@@ -21,32 +21,48 @@ struct HomeView: View {
     List(viewModel.properties) { property in
       PropertyItemView(property: property)
         .listRowSeparator(.hidden)
-        .onTapGesture {
-          viewModel.stopUpdatingLocation()
-          router.push(to: .propertyDetails(property))
-        }
+        .onTapGesture { router.push(to: .propertyDetails(property)) }
     }
     .listStyle(.plain)
     .navigationTitle("Home")
     .navigationBarBackButtonHidden()
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
-        Button("", systemImage: "camera") {
-          viewModel.isImagePickerPresented.toggle()
-        }
+        Button("", systemImage: "camera") { presentImagePicker() }
       }
+    }
+    .alert(
+      "Camera & Location Access Needed",
+      isPresented: $viewModel.isAlertPresented
+    ) {
+      Button("Open Settings") { UIApplication.shared.openSettings() }
+      Button("Cancel", role: .cancel) {}
+    } message: {
+      Text("To use this feature, enable Camera and Location access for this app in Settings.")
     }
     .fullScreenCover(isPresented: $viewModel.isImagePickerPresented) {
       ImagePickerView(imageData: $viewModel.capturedImageData)
     }
     .onAppear {
       viewModel.getProperties()
-      viewModel.requestLocationPermission()
+      viewModel.startUpdatingLocation()
     }
     .onDisappear { viewModel.stopUpdatingLocation() }
-    .onChange(of: viewModel.capturedImageData) {
-      pushToPropertyForm()
+    .onChange(of: viewModel.capturedImageData) { pushToPropertyForm() }
+  }
+}
+
+// MARK: User Initiated
+
+extension HomeView {
+
+  private func presentImagePicker() {
+    guard viewModel.hasRequiredPermissions else {
+      viewModel.isAlertPresented = true
+      return
     }
+
+    viewModel.isImagePickerPresented = true
   }
 }
 
@@ -67,6 +83,7 @@ extension HomeView {
   let container = AppContainer()
   let vm = HomeViewModel(
     locationService: container.locationService,
+    cameraService: container.cameraService,
     propertyRepository: container.propertyRepository
   )
 
