@@ -9,7 +9,7 @@ import AVFoundation
 
 protocol CameraServiceProtocol {
 
-  var authStatus: AVAuthorizationStatus { get }
+  var isAuthorized: Bool { get }
 
   func requestCameraAuthorization() async
 }
