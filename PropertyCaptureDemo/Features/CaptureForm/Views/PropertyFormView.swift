@@ -41,7 +41,7 @@ struct PropertyFormView: View {
 
         Button {
           UIApplication.shared.endEditing()
-          viewModel.isActivityViewPresented.toggle()
+          viewModel.isActivityViewPresented = true
 
           try? viewModel.saveProperty()
         } label: {
