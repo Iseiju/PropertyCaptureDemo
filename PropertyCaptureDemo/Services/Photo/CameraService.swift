@@ -7,21 +7,15 @@
 
 import AVFoundation
 
-protocol CameraServiceProtocol {
-
-  var authStatus: AVAuthorizationStatus { get }
-
-  func requestPermission() async
-}
-
-@Observable
 final class CameraService: CameraServiceProtocol {
 
   var authStatus: AVAuthorizationStatus {
     return AVCaptureDevice.authorizationStatus(for: .video)
   }
 
-  func requestPermission() async {
+  func requestCameraAuthorization() async {
+    guard authStatus == .notDetermined else { return }
+
     await AVCaptureDevice.requestAccess(for: .video)
   }
 }

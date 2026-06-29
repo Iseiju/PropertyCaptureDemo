@@ -7,26 +7,36 @@
 
 import CoreLocation
 
-@Observable
-final class LocationService: NSObject {
+final class LocationService: NSObject, LocationServiceProtocol {
 
-  var currentLocation: CLLocation?
-  var authStatus: CLAuthorizationStatus = .notDetermined
+  var isAuthorized: Bool {
+    switch authStatus {
+    case .authorizedAlways, .authorizedWhenInUse:
+      return true
 
-  @ObservationIgnored
+    default:
+      return false
+    }
+  }
+
+  private(set) var authStatus: CLAuthorizationStatus = .notDetermined
+  private(set) var currentLocation: CLLocation?
+
   private let locationManager = CLLocationManager()
 
   override init() {
+    authStatus = locationManager.authorizationStatus
+
     super.init()
 
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
   }
 
-  func requestPermission() {
-    locationManager.requestWhenInUseAuthorization()
+  func requestLocationAuthorization() {
+    guard authStatus == .notDetermined else { return }
 
-    handleAuthStatus(authStatus)
+    locationManager.requestWhenInUseAuthorization()
   }
 
   func startUpdatingLocation() {
@@ -70,8 +80,7 @@ extension LocationService {
       startUpdatingLocation()
 
     default:
-      // SHOW ALERT AND NAVIGATE USER TO SETTINGS PAGE
-      break
+      stopUpdatingLocation()
     }
   }
 }

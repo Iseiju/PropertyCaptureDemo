@@ -23,6 +23,7 @@ extension Route {
       HomeFactory
         .makeHomeView(
           locationService: appContainer.locationService,
+          cameraService: appContainer.cameraService,
           propertyRepository: appContainer.propertyRepository
         )
 

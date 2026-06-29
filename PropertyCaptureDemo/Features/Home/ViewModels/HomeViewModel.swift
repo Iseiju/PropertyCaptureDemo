@@ -16,18 +16,19 @@ final class HomeViewModel {
   var capturedImageData: Data? = nil
   var isImagePickerPresented: Bool = false
 
-  var currentLocation: CLLocation? {
-    return locationService.currentLocation
-  }
+  var currentLocation: CLLocation? { return locationService.currentLocation }
 
-  private let locationService: LocationService
+  private let locationService: LocationServiceProtocol
+  private let cameraService: CameraServiceProtocol
   private let propertyRepository: PropertyRepositoryProtocol
 
   init(
-    locationService: LocationService,
+    locationService: LocationServiceProtocol,
+    cameraService: CameraServiceProtocol,
     propertyRepository: PropertyRepositoryProtocol
   ) {
     self.locationService = locationService
+    self.cameraService = cameraService
     self.propertyRepository = propertyRepository
   }
 }
@@ -49,11 +50,17 @@ extension HomeViewModel {
 
 extension HomeViewModel {
 
-  func requestLocationPermission() {
-    locationService.requestPermission()
+  func startUpdatingLocation() {
+    locationService.startUpdatingLocation()
   }
 
   func stopUpdatingLocation() {
     locationService.stopUpdatingLocation()
   }
+}
+
+// MARK: Camera Functions
+
+extension HomeViewModel {
+
 }

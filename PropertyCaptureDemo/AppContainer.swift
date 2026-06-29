@@ -13,13 +13,15 @@ struct AppContainer {
   let modelContainer: ModelContainer
   let modelContext: ModelContext
 
-  let locationService: LocationService
+  let locationService: LocationServiceProtocol
+  let cameraService: CameraServiceProtocol
 
   let propertyRepository: PropertyRepositoryProtocol
   let geocodingAPI: GeocodingAPIProtocol
 
   init() {
     locationService = LocationService()
+    cameraService = CameraService()
 
     let networkService = NetworkService()
     geocodingAPI = networkService

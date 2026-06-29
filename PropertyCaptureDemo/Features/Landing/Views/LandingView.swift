@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LandingView: View {
-  
+
   @Environment(Router.self) private var router
 
   var body: some View {
