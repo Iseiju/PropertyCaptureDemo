@@ -24,6 +24,10 @@ struct PropertyCaptureDemoApp: App {
             route.destination(appContainer)
           }
       }
+      .task {
+        await appContainer.cameraService.requestCameraAuthorization()
+        appContainer.locationService.requestLocationAuthorization()
+      }
     }
     .environment(router)
     .modelContainer(appContainer.modelContainer)
