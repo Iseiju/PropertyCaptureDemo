@@ -28,10 +28,17 @@ struct HomeView: View {
     .navigationBarBackButtonHidden()
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
-        Button("", systemImage: "camera") {
-          viewModel.isImagePickerPresented.toggle()
-        }
+        Button("", systemImage: "camera") { presentImagePicker() }
       }
+    }
+    .alert(
+      "Camera & Location Access Needed",
+      isPresented: $viewModel.isAlertPresented
+    ) {
+      Button("Open Settings") { UIApplication.shared.openSettings() }
+      Button("Cancel", role: .cancel) {}
+    } message: {
+      Text("To use this feature, enable Camera and Location access for this app in Settings.")
     }
     .fullScreenCover(isPresented: $viewModel.isImagePickerPresented) {
       ImagePickerView(imageData: $viewModel.capturedImageData)
@@ -42,6 +49,20 @@ struct HomeView: View {
     }
     .onDisappear { viewModel.stopUpdatingLocation() }
     .onChange(of: viewModel.capturedImageData) { pushToPropertyForm() }
+  }
+}
+
+// MARK: User Initiated
+
+extension HomeView {
+
+  private func presentImagePicker() {
+    guard viewModel.hasRequiredPermissions else {
+      viewModel.isAlertPresented = true
+      return
+    }
+
+    viewModel.isImagePickerPresented = true
   }
 }
 

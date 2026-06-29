@@ -15,7 +15,12 @@ final class HomeViewModel {
 
   var capturedImageData: Data? = nil
   var isImagePickerPresented: Bool = false
+  var isAlertPresented: Bool = false
 
+  var hasRequiredPermissions: Bool {
+    return locationService.isAuthorized && cameraService.isAuthorized
+  }
+  
   var currentLocation: CLLocation? { return locationService.currentLocation }
 
   private let locationService: LocationServiceProtocol
@@ -57,10 +62,4 @@ extension HomeViewModel {
   func stopUpdatingLocation() {
     locationService.stopUpdatingLocation()
   }
-}
-
-// MARK: Camera Functions
-
-extension HomeViewModel {
-
 }
