@@ -22,8 +22,8 @@ struct PropertyFormView: View {
         if let image = UIImage(data: viewModel.imageData) {
           Image(uiImage: image)
             .resizable()
-            .scaledToFill()
             .frame(height: 400)
+            .scaledToFill()
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay {
               RoundedRectangle(cornerRadius: 8, style: .continuous)
