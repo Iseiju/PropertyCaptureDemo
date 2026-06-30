@@ -81,7 +81,7 @@ The app uses SwiftUI's native state management:
 
 * `@State` for view-local state.
 * `@Observable` for shared presentation state.
-* Dependency injection via `.environment` for shared services (e.g., Location).
+* Dependency injection via `.environment` for the router navigation service.
 * `async/await` for asynchronous operations.
 
 Typical data flow:
