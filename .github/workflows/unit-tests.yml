@@ -34,7 +34,7 @@ jobs:
           
           # 2. Execute tests using the discovered simulator
           set -o pipefail && xcodebuild test \
-            -project YourProjectName.xcodeproj \
-            -scheme "YourSchemeName" \
+            -project PropertyCaptureDemo.xcodeproj \
+            -scheme "PropertyCaptureDemoTests" \
             -destination "platform=iOS Simulator,name=$SIM_NAME" \
             CODE_SIGNING_ALLOWED=NO | xcbeautify
