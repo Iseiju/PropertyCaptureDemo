@@ -27,7 +27,14 @@ jobs:
 
       - name: Run Unit Tests
         run: |
-          xcodebuild test \
-            -project PropertyCaptureDemo.xcodeproj \
-            -scheme PropertyCaptureDemoTests \
-            -destination "platform=iOS Simulator"
+          # 1. Grab only the first available iPhone model name
+          SIM_NAME=$(xcrun simctl list devices available | grep -m 1 'iPhone' | sed -E 's/^[[:space:]]*([^()]+)[[:space:]]*\(.*/\1/' | xargs)
+          
+          echo "Selected iPhone: $SIM_NAME"
+          
+          # 2. Execute tests using the discovered simulator
+          set -o pipefail && xcodebuild test \
+            -project YourProjectName.xcodeproj \
+            -scheme "YourSchemeName" \
+            -destination "platform=iOS Simulator,name=$SIM_NAME" \
+            CODE_SIGNING_ALLOWED=NO | xcbeautify
