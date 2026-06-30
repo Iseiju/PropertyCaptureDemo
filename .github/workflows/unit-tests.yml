@@ -24,12 +24,22 @@ jobs:
         with:
           xcode-version: "26.3"
 
-      - name: Show Xcode version
-        run: xcodebuild -version
+      - name: Show Xcode
+        run: |
+          xcode-select -p
+          xcodebuild -version
+
+      - name: Show installed simulator runtimes
+        run: |
+          xcrun simctl list runtimes
+
+      - name: Show available simulators
+        run: |
+          xcrun simctl list devices available
 
       - name: Run Unit Tests
         run: |
           xcodebuild test \
             -project PropertyCaptureDemo.xcodeproj \
             -scheme PropertyCaptureDemoTests \
-            -destination 'platform=iOS Simulator,name=iPhone 17'
+            -destination 'platform=iOS Simulator,name=iPhone 16'
