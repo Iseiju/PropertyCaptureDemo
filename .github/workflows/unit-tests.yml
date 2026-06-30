@@ -19,9 +19,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Select Xcode 26.3
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '26.3'
+
       - name: Run Unit Tests
         run: |
-          xcodebuild test \
+          # 1. Grab only the first available iPhone model name
+          SIM_NAME=$(xcrun simctl list devices available | grep -m 1 'iPhone' | sed -E 's/^[[:space:]]*([^()]+)[[:space:]]*\(.*/\1/' | xargs)
+          
+          echo "Selected iPhone: $SIM_NAME"
+          
+          # 2. Execute tests using the discovered simulator
+          set -o pipefail && xcodebuild test \
             -project PropertyCaptureDemo.xcodeproj \
-            -scheme PropertyCaptureDemoTests \
-            -destination 'platform=iOS Simulator,name=iPhone 16'
+            -scheme "PropertyCaptureDemoTests" \
+            -destination "platform=iOS Simulator,name=$SIM_NAME" \
+            CODE_SIGNING_ALLOWED=NO | xcbeautify
