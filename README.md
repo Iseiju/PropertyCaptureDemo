@@ -153,7 +153,7 @@ Given additional time, I would prioritize:
 * Improved error handling and retry mechanisms.
 * Attach metadata to the photo based on the enriched details.
 * Expanded unit test coverage.
-* A CI/CD pipeline with automated testing.
+* Expand the CI pipeline with automated deployment.
 * Overall UI/UX polish.
 
 ---
