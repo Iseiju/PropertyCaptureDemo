@@ -119,6 +119,7 @@ Keeping state changes inside the ViewModel maintains a predictable, one-way data
 | SwiftUI                           | Declarative UI.                                  |
 | Swift Concurrency (`async/await`) | Asynchronous programming.                        |
 | SwiftData                         | Lightweight persistence integrated with SwiftUI. |
+| XCTest                            | Unit Testing                                     |
 | Core Location                     | Device location access for photo enrichment.     |
 | ImagePicker                       | Image capture.                                   |
 | ActivityView                      | Content sharing.                                 |
