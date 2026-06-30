@@ -81,7 +81,6 @@ The app uses SwiftUI's native state management:
 
 * `@State` for view-local state.
 * `@Observable` for shared presentation state.
-* `.environment` for the router navigation service.
 * `async/await` for asynchronous operations.
 
 Typical data flow:
@@ -152,10 +151,10 @@ Keeping state changes inside the ViewModel maintains a predictable, one-way data
 Given additional time, I would prioritize:
 
 * Improved error handling and retry mechanisms.
-* Attach metadata to the photo based on the enriched details.
-* Expanded unit test coverage.
-* Expand the CI pipeline with automated deployment.
-* Overall UI/UX polish.
+* Attaching metadata to photos based on the enriched details.
+* Expanding unit test coverage.
+* Expanding the CI pipeline with automated deployment.
+* Polishing the overall UI/UX.
 
 ---
 
