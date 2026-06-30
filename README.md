@@ -21,6 +21,14 @@
 
 ---
 
+## App Flow
+
+1. Launch the app and grant camera and location permissions when prompted.
+2. Tap the camera button in the top-right corner to capture a photo.
+3. Wait for the app to retrieve the current location and enrich the photo with property details.
+4. Review the information and add notes for the property.
+5. Tap Send to share the photo together with the property details.
+
 # Technical Overview
 
 ## App Architecture
