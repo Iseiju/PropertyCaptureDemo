@@ -25,22 +25,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
 
   func testGetReverseGeocodeInfoSuccess() async {
     let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
-    let stubAddress = Address(
-      road: "Circumferential Road",
-      quarter: nil,
-      suburb: "Limao",
-      city: "Samal",
-      region: "Davao Region",
-      postcode: "8119",
-      country: "Philippines"
-    )
-    let stubReverseGeocode = ReverseGeocodeResponse(
-      placeId: 261460442,
-      name: "Crusoe Cabins at Costa Azalea",
-      type: "beach_resort",
-      address: stubAddress
-    )
-
+    let stubReverseGeocode = makeStubReverseGeocodeResponse()
     mockAPI.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
 
     do {
@@ -72,23 +57,9 @@ final class PropertyCaptureViewModelTest: XCTestCase {
 
   func testCreateActivityItemsHasGeocodeInfo() async {
     let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
-    let stubAddress = Address(
-      road: "Circumferential Road",
-      quarter: nil,
-      suburb: "Limao",
-      city: "Samal",
-      region: "Davao Region",
-      postcode: "8119",
-      country: "Philippines"
-    )
-    let stubReverseGeocode = ReverseGeocodeResponse(
-      placeId: 261460442,
-      name: "Crusoe Cabins at Costa Azalea",
-      type: "beach_resort",
-      address: stubAddress
-    )
-
+    let stubReverseGeocode = makeStubReverseGeocodeResponse()
     mockAPI.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
+
     try? await sut.getReverseGeocodeInfo()
 
     sut.notes = "Sample Notes"
@@ -104,6 +75,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   func testCreateActivityItemsNoGeocodeInfo() async {
     let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
     mockAPI.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: nil))
+
     try? await sut.getReverseGeocodeInfo()
 
     XCTAssertFalse(sut.imageData.isEmpty)
@@ -170,5 +142,30 @@ extension PropertyCaptureViewModelTest {
     )
 
     return (sut, geocodingAPIMock, propertyRepositoryMock)
+  }
+}
+
+// MARK: Make Stub
+
+extension PropertyCaptureViewModelTest {
+
+  private func makeStubReverseGeocodeResponse() -> ReverseGeocodeResponse {
+    let address = Address(
+      road: "Circumferential Road",
+      quarter: nil,
+      suburb: "Limao",
+      city: "Samal",
+      region: "Davao Region",
+      postcode: "8119",
+      country: "Philippines"
+    )
+    let reverseGeocode = ReverseGeocodeResponse(
+      placeId: 261460442,
+      name: "Crusoe Cabins at Costa Azalea",
+      type: "beach_resort",
+      address: address
+    )
+
+    return reverseGeocode
   }
 }
