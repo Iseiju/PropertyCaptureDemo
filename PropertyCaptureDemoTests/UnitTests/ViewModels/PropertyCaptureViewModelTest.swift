@@ -13,15 +13,18 @@ import CoreLocation
 final class PropertyCaptureViewModelTest: XCTestCase {
 
   func testGetReverseGeocodeInfoCalled() async {
-    let (sut, spyAPI, _) = makeSpyPropertyFormVM()
+    let location = CLLocation(
+      latitude: 7.097357181983118, longitude: 126.66729262828807
+    )
+    let (sut, spyAPI, _) = makeSpyPropertyCaptureVM(location: location)
 
     try? await sut.getReverseGeocodeInfo()
 
-    XCTAssertEqual(spyAPI.called, [.getReverseGeocodeInfo(7.087357181983118, 125.66729262828807)])
+    XCTAssertEqual(spyAPI.called, [.getReverseGeocodeInfo(7.097357181983118, 126.66729262828807)])
   }
 
   func testGetReverseGeocodeInfoSuccess() async {
-    let (sut, mockAPI, _) = makeMockPropertyFormVM()
+    let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
     let stubAddress = Address(
       road: "Circumferential Road",
       quarter: nil,
@@ -52,7 +55,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   }
 
   func testGetReverseGeocodeInfoFailed() async {
-    let (sut, mockAPI, _) = makeMockPropertyFormVM()
+    let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
     mockAPI.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: "Unknown Error"))
 
     do {
@@ -68,7 +71,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   }
 
   func testCreateActivityItemsHasGeocodeInfo() async {
-    let (sut, mockAPI, _) = makeMockPropertyFormVM()
+    let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
     let stubAddress = Address(
       road: "Circumferential Road",
       quarter: nil,
@@ -99,7 +102,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   }
   
   func testCreateActivityItemsNoGeocodeInfo() async {
-    let (sut, mockAPI, _) = makeMockPropertyFormVM()
+    let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
     mockAPI.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: nil))
     try? await sut.getReverseGeocodeInfo()
 
@@ -112,7 +115,8 @@ final class PropertyCaptureViewModelTest: XCTestCase {
   }
 
   func testSaveNewProperty() async {
-    let (sut, _, mockRepository) = makeMockPropertyFormVM()
+    let imageData = Data(repeating: 0xFF, count: 1022)
+    let (sut, _, mockRepository) = makeMockPropertyCaptureVM(imageData: imageData)
     let uuid = sut.formUUID
     sut.propertyName = "Crusoe Cabins At Costa Azalea"
     sut.propertyType = "Beach Resort"
@@ -121,13 +125,14 @@ final class PropertyCaptureViewModelTest: XCTestCase {
 
     try? sut.saveProperty()
 
-    let mockProperty = mockRepository.properties.first(where: { $0.id == uuid })
+    let savedProperty = try? mockRepository.getProperty(for: uuid)
 
-    XCTAssertNotNil(mockProperty)
-    XCTAssertEqual(mockProperty?.name, "Crusoe Cabins At Costa Azalea")
-    XCTAssertEqual(mockProperty?.type, "Beach Resort")
-    XCTAssertEqual(mockProperty?.address, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
-    XCTAssertEqual(mockProperty?.notes, "Sample Notes")
+    XCTAssertNotNil(savedProperty)
+    XCTAssertEqual(savedProperty?.imageData, Data(repeating: 0xFF, count: 1022))
+    XCTAssertEqual(savedProperty?.name, "Crusoe Cabins At Costa Azalea")
+    XCTAssertEqual(savedProperty?.type, "Beach Resort")
+    XCTAssertEqual(savedProperty?.address, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
+    XCTAssertEqual(savedProperty?.notes, "Sample Notes")
   }
 }
 
@@ -135,13 +140,12 @@ final class PropertyCaptureViewModelTest: XCTestCase {
 
 extension PropertyCaptureViewModelTest {
 
-  private func makeSpyPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPISpy, PropertyRepositoryMock) {
-    let imageData = Data(repeating: 0xFF, count: 1024)
-    let location = CLLocation(
-      latitude: 7.087357181983118, longitude: 125.66729262828807
-    )
+  private func makeSpyPropertyCaptureVM(
+    imageData: Data = .init(repeating: 0xFF, count: 1024),
+    location: CLLocation = .init(latitude: 7.087357181983118, longitude: 125.66729262828807)
+  ) -> (PropertyCaptureViewModel, GeocodingAPISpy, PropertyRepositoryMock) {
     let geocodingAPISpy = GeocodingAPISpy()
-    let propertyRepositoryMock = PropertyRepositoryMock()
+    let propertyRepositoryMock = PropertyRepositoryMock(properties: [])
     let sut = PropertyCaptureViewModel(
       imageData: imageData,
       currentLocation: location,
@@ -152,13 +156,12 @@ extension PropertyCaptureViewModelTest {
     return (sut, geocodingAPISpy, propertyRepositoryMock)
   }
 
-  private func makeMockPropertyFormVM() -> (PropertyCaptureViewModel, GeocodingAPIMock, PropertyRepositoryMock) {
-    let imageData = Data(repeating: 0xFF, count: 1024)
-    let location = CLLocation(
-      latitude: 7.087357181983118, longitude: 125.66729262828807
-    )
+  private func makeMockPropertyCaptureVM(
+    imageData: Data = .init(repeating: 0xFF, count: 1024),
+    location: CLLocation = .init(latitude: 7.087357181983118, longitude: 125.66729262828807)
+  ) -> (PropertyCaptureViewModel, GeocodingAPIMock, PropertyRepositoryMock) {
     let geocodingAPIMock = GeocodingAPIMock()
-    let propertyRepositoryMock = PropertyRepositoryMock()
+    let propertyRepositoryMock = PropertyRepositoryMock(properties: [])
     let sut = PropertyCaptureViewModel(
       imageData: imageData,
       currentLocation: location,
