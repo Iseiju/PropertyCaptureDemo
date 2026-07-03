@@ -18,7 +18,7 @@ struct HomeView: View {
   }
 
   var body: some View {
-    List(viewModel.properties) { property in
+    List(viewModel.properties, id: \.id) { property in
       PropertyItemView(property: property)
         .listRowSeparator(.hidden)
         .onTapGesture { router.push(to: .propertyDetails(property)) }

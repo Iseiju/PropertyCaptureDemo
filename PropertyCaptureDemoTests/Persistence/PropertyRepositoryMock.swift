@@ -10,10 +10,10 @@ import Foundation
 
 final class PropertyRepositoryMock: PropertyRepositoryProtocol {
 
-  private(set) var properties: [Property]
+  private var properties: [Property]
 
-  init() {
-    self.properties = Property.dummyProperties()
+  init(properties: [Property]) {
+    self.properties = properties
   }
 
   func getProperties() throws -> [Property] {
