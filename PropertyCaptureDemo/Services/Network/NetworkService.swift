@@ -10,7 +10,7 @@ import Foundation
 class NetworkService: NetworkServiceProtocol {
 
   func request<T: Decodable>(
-    api: NetworkAPIProtocol, type: T.Type, timeoutInterval: TimeInterval = 4.0
+    api: NetworkAPIProtocol, type: T.Type, timeoutInterval: TimeInterval = 5
   ) async throws(AppError) -> T {
     do {
       guard let url = api.createURL() else { throw URLError(.badURL) }
