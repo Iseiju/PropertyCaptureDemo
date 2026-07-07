@@ -12,9 +12,4 @@ extension String {
   nonisolated var isBlank: Bool {
     return trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
-
-  var withoutSpaces: String {
-    return trimmingCharacters(in: .whitespacesAndNewlines)
-      .replacingOccurrences(of: " ", with: "")
-  }
 }
