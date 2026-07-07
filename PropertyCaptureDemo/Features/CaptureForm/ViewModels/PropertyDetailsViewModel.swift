@@ -22,6 +22,8 @@ final class PropertyDetailsViewModel: BasePropertyFormViewModel {
     propertyType = property.type
     propertyAddress = property.address
     notes = property.notes
+
+    requestState = .loaded
   }
 
   override func saveProperty() throws {
