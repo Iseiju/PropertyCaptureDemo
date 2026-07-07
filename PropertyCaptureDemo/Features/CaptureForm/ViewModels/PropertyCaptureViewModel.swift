@@ -28,16 +28,21 @@ final class PropertyCaptureViewModel: BasePropertyFormViewModel {
     super.init(imageData: imageData, propertyRepository: propertyRepository)
   }
 
-  override func getReverseGeocodeInfo() async throws(AppError) {
-    isRequesting = true
-    defer { isRequesting = false }
+  override func getReverseGeocodeInfo() async {
+    do {
+      requestState = .loading
 
-    let latitude = currentLocation.coordinate.latitude
-    let longitude = currentLocation.coordinate.longitude
-    let reverseGeocodeResponse = try await geocodingAPI
-      .getReverseGeocodeInfo(latitude, longitude)
+      let latitude = currentLocation.coordinate.latitude
+      let longitude = currentLocation.coordinate.longitude
+      let reverseGeocodeResponse = try await geocodingAPI
+        .getReverseGeocodeInfo(latitude, longitude)
 
-    mapResponse(from: reverseGeocodeResponse)
+      mapResponse(from: reverseGeocodeResponse)
+
+      requestState = .loaded
+    } catch {
+      requestState = .failed(error)
+    }
   }
 
   override func saveProperty() throws {

@@ -17,6 +17,27 @@ struct PropertyFormView: View {
   }
 
   var body: some View {
+    RequestStateAwareView(
+      requestState: $viewModel.requestState,
+      placeholder: { placeholder() },
+      content: { contentView() },
+      didTapRetry: {
+        Task { await viewModel.getReverseGeocodeInfo() }
+      }
+    )
+    .navigationTitle("Property Details")
+    .sheet(isPresented: $viewModel.isActivityViewPresented) {
+      ActivityView(items: viewModel.activityItems)
+    }
+    .task { await viewModel.getReverseGeocodeInfo() }
+  }
+}
+
+// MARK: View Functions
+
+extension PropertyFormView {
+
+  private func contentView() -> some View {
     ScrollView(.vertical) {
       VStack(spacing: 12) {
         if let image = UIImage(data: viewModel.imageData) {
@@ -31,10 +52,23 @@ struct PropertyFormView: View {
             }
         }
 
-        if viewModel.isRequesting {
-          placeholder()
-        } else {
-          propertyDetails()
+        VStack(alignment: .leading, spacing: 8) {
+          LabeledText(title: "Name", text: viewModel.propertyName)
+          LabeledText(title: "Type", text: viewModel.propertyType)
+          LabeledText(title: "Address", text: viewModel.propertyAddress)
+
+          Text("Notes")
+            .font(.system(size: 16, weight: .semibold))
+            .padding(.top, 12)
+
+          TextEditor(text: $viewModel.notes)
+            .font(.system(size: 14, weight: .regular))
+            .frame(height: 60)
+            .padding(12)
+            .overlay {
+              RoundedRectangle(cornerRadius: 8)
+                .stroke(.gray, lineWidth: 1.0)
+            }
         }
 
         Spacer()
@@ -57,41 +91,10 @@ struct PropertyFormView: View {
       }
       .padding(20)
     }
-    .navigationTitle("Property Details")
-    .sheet(isPresented: $viewModel.isActivityViewPresented) {
-      ActivityView(items: viewModel.activityItems)
-    }
-    .task { try? await viewModel.getReverseGeocodeInfo() }
-  }
-}
-
-// MARK: View Functions
-
-extension PropertyFormView {
-
-  private func propertyDetails() -> some View {
-    VStack(alignment: .leading, spacing: 8) {
-      LabeledText(title: "Name", text: viewModel.propertyName)
-      LabeledText(title: "Type", text: viewModel.propertyType)
-      LabeledText(title: "Address", text: viewModel.propertyAddress)
-
-      Text("Notes")
-        .font(.system(size: 16, weight: .semibold))
-        .padding(.top, 12)
-
-      TextEditor(text: $viewModel.notes)
-        .font(.system(size: 14, weight: .regular))
-        .frame(height: 60)
-        .padding(12)
-        .overlay {
-          RoundedRectangle(cornerRadius: 8)
-            .stroke(.gray, lineWidth: 1.0)
-        }
-    }
   }
 
   private func placeholder() -> some View {
-    propertyDetails()
+    contentView()
       .redacted(reason: .placeholder)
       .disabled(true)
   }

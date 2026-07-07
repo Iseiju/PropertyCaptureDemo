@@ -18,7 +18,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
     )
     let (sut, spyAPI, _) = makeSpyPropertyCaptureVM(location: location)
 
-    try? await sut.getReverseGeocodeInfo()
+    await sut.getReverseGeocodeInfo()
 
     XCTAssertEqual(spyAPI.called, [.getReverseGeocodeInfo(7.097357181983118, 126.66729262828807)])
   }
@@ -28,31 +28,33 @@ final class PropertyCaptureViewModelTest: XCTestCase {
     let stubReverseGeocode = makeStubReverseGeocodeResponse()
     mockAPI.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
 
-    do {
-      try await sut.getReverseGeocodeInfo()
+    await sut.getReverseGeocodeInfo()
 
-      XCTAssertEqual(sut.propertyName, "Crusoe Cabins At Costa Azalea")
-      XCTAssertEqual(sut.propertyType, "Beach Resort")
-      XCTAssertEqual(sut.propertyAddress, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
-    } catch {
+    guard case .loaded = sut.requestState else {
       XCTFail("Get Reverse Geocode request should succeed")
+      return
     }
+
+    XCTAssertEqual(sut.propertyName, "Crusoe Cabins At Costa Azalea")
+    XCTAssertEqual(sut.propertyType, "Beach Resort")
+    XCTAssertEqual(sut.propertyAddress, "Circumferential Road, Limao, Samal, Davao Region, 8119, Philippines")
   }
 
   func testGetReverseGeocodeInfoFailed() async {
     let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
     mockAPI.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: "Unknown Error"))
 
-    do {
-      try await sut.getReverseGeocodeInfo()
+    await sut.getReverseGeocodeInfo()
 
+    guard case .failed(let error) = sut.requestState else {
       XCTFail("Get Reverse Geocode request should fail")
-    } catch {
-      XCTAssertTrue(sut.propertyName.isBlank)
-      XCTAssertTrue(sut.propertyType.isBlank)
-      XCTAssertTrue(sut.propertyAddress.isBlank)
-      XCTAssertEqual(error.localizedDescription, "Unknown Error")
+      return
     }
+
+    XCTAssertTrue(sut.propertyName.isBlank)
+    XCTAssertTrue(sut.propertyType.isBlank)
+    XCTAssertTrue(sut.propertyAddress.isBlank)
+    XCTAssertEqual(error.localizedDescription, "Unknown Error")
   }
 
   func testCreateActivityItemsHasGeocodeInfo() async {
@@ -60,7 +62,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
     let stubReverseGeocode = makeStubReverseGeocodeResponse()
     mockAPI.getReverseGeocodeInfoResult = .success(stubReverseGeocode)
 
-    try? await sut.getReverseGeocodeInfo()
+    await sut.getReverseGeocodeInfo()
 
     sut.notes = "Sample Notes"
 
@@ -76,7 +78,7 @@ final class PropertyCaptureViewModelTest: XCTestCase {
     let (sut, mockAPI, _) = makeMockPropertyCaptureVM()
     mockAPI.getReverseGeocodeInfoResult = .failure(.badServerResponse(message: nil))
 
-    try? await sut.getReverseGeocodeInfo()
+    await sut.getReverseGeocodeInfo()
 
     XCTAssertFalse(sut.imageData.isEmpty)
     XCTAssertTrue(sut.propertyName.isEmpty)

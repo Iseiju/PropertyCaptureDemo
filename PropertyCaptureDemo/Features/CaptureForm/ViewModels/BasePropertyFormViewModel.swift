@@ -12,16 +12,18 @@ import UniformTypeIdentifiers
 @Observable
 class BasePropertyFormViewModel {
 
+  var requestState: RequestState = .idle
+
   var propertyName: String = ""
   var propertyType: String = ""
   var propertyAddress: String = ""
   var notes: String = ""
 
-  var isRequesting: Bool = false
   var isActivityViewPresented: Bool = false
 
   var isSendButtonEnabled: Bool {
-    return !isRequesting &&
+    return !requestState.isRequesting &&
+      !isActivityViewPresented &&
       !propertyName.isBlank &&
       !propertyType.isBlank &&
       !propertyAddress.isBlank &&
@@ -60,6 +62,6 @@ class BasePropertyFormViewModel {
   /// Override Functions
   /// Default implementation does nothing.
   /// Subclasses override if needed.
-  func getReverseGeocodeInfo() async throws(AppError) {}
+  func getReverseGeocodeInfo() async {}
   func saveProperty() throws {}
 }
