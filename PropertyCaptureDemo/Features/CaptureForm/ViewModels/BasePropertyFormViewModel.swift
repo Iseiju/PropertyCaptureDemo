@@ -19,11 +19,11 @@ class BasePropertyFormViewModel {
   var propertyAddress: String = ""
   var notes: String = ""
 
-  var isRequesting: Bool = false
   var isActivityViewPresented: Bool = false
 
   var isSendButtonEnabled: Bool {
-    return !isRequesting &&
+    return !requestState.isRequesting &&
+      !isActivityViewPresented &&
       !propertyName.isBlank &&
       !propertyType.isBlank &&
       !propertyAddress.isBlank &&
