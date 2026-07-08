@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkService: NetworkServiceProtocol {
+final class NetworkService {
 
   func request<T: Decodable>(
     api: NetworkAPIProtocol, type: T.Type, timeoutInterval: TimeInterval = 5
